@@ -1,0 +1,458 @@
+[33mcommit 9e47ffc3c96f38c837b28d06b15eacc631684824[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: = <=>
+Date:   Sun Sep 3 00:13:21 2017 -0700
+
+    
+
+[33mcommit 29f309753e53a0b01d7ce1463b33c4d6aacefa4d[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Ben Johnson <ben@indietorrent.org>
+Date:   Wed Aug 30 17:27:57 2017 -0400
+
+    Upgrade MariaDB version from 10.1 to 10.2 (stable) (#657)
+    
+    Note: This commit differs slightly from the initial attempt at https://github.com/laravel/homestead/pull/441/files in that this commit addresses the erroneous `default_password_lifetime` directive, too.
+    
+    For the reasons described from https://github.com/laravel/homestead/issues/529#issuecomment-316290010 to the end of the thread, it seems appropriate to re-introduce Maria DB 10.2.x, now that the 10.2 series is marked GA/stable, per https://mariadb.com/kb/en/the-mariadb-library/changes-improvements-in-mariadb-102/ .
+    
+    Also, according to https://mariadb.com/kb/en/the-mariadb-library/system-variable-differences-between-mariadb-101-and-mysql-57/ , the `default_password_lifetime` is a `MySQL-only variable determining how long passwords are valid for before expiring.`
+    
+    With this directive present, Homestead (v6.1.0) provisioning fails with:
+    
+        ==> homestead-7: mysql: unknown variable 'default_password_lifetime=0'
+    
+    Removing this directive resolves the problem.
+
+[33mcommit 52f009a6afa3b6648996e56e8f2dd2c5efb29cdf[m
+Author: Braxton Fair <fairsbraxton@gmail.com>
+Date:   Mon Aug 28 10:06:08 2017 -0500
+
+    Edit some grammar and include some links (#654)
+    
+    This is to add some helpful links along with a few grammar and textual tweaks.
+
+[33mcommit 086505fa86a723b3271a770943c445905e4687a5[m
+Author: Braxton Fair <fairsbraxton@gmail.com>
+Date:   Mon Aug 28 09:59:59 2017 -0500
+
+    Safety first! (#655)
+
+[33mcommit 7007b45c56a09d2afc8c1019854a2ea26b771ff0[m
+Author: Mathias Geat <mathias@ailoo.net>
+Date:   Wed Aug 16 15:41:39 2017 +0200
+
+    allow pimcore serve function to specify a php version (#649)
+
+[33mcommit 21166d58a436d37f28295296d89b0732ff7ba64a[m
+Author: Ricardo Seriani <ricardo.seriani@gmail.com>
+Date:   Wed Aug 16 10:41:12 2017 -0300
+
+    Use function instead of alias to swith php version (#648)
+    
+    Remove the alias, since there is already a function to switch php
+    version
+
+[33mcommit 8309cd3a6dec0c1b6041bba2cb15668ac6cc29eb[m
+Author: pascal08 <pascallubbers8@hotmail.com>
+Date:   Tue Aug 15 19:58:53 2017 +0200
+
+    Add aliases for easy switching between PHP versions (#647)
+    
+    * Add aliases for easy switching between PHP versions
+    
+    * Change order of aliases
+
+[33mcommit 9bb12417850f20cb914134e168d7f771a5f1840f[m[33m ([m[1;33mtag: v6.1.0[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Sun Aug 13 11:48:20 2017 -0500
+
+    💎 🔖 Tagging 6.1.0
+
+[33mcommit a9118dafc21c7127bd71a6184ac6d02c7edb2445[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Sun Aug 13 11:45:10 2017 -0500
+
+    ❄️ 🚑 🐧 Fix bad site root path generation by make command (#646)
+    
+    Resloves #645
+
+[33mcommit b038a817d30f905065e0b345d5970ccbace9e9af[m
+Author: Francis Hilaire <Prometee@users.noreply.github.com>
+Date:   Wed Aug 9 20:20:16 2017 +0200
+
+    PHP version aware for prod env (#639)
+
+[33mcommit a4dc69da62aa2c7aece270b7b1a8ec2acaa5a298[m
+Author: Mathias Geat <mathias@ailoo.net>
+Date:   Tue Aug 8 14:14:25 2017 +0200
+
+    Add support for Pimcore (#634)
+    
+    * Add support for Pimcore 5 served by Apache
+    
+    * Rename pimcore5 type to pimcore
+
+[33mcommit 5cd82939fdebe2c0b53c34190f35f1535cee7bb9[m
+Author: Andrew <browner12@gmail.com>
+Date:   Tue Aug 8 07:14:03 2017 -0500
+
+    allow serve functions to specify a php version (#631)
+    
+    a little bug introduced by the recent ability to specify PHP verions.
+    
+    the `serve` functions are currently failing because they do not specify a PHP version, and there is no default.
+    
+    this PR allows the `serve` functions to specify a specific PHP version (5.6, 7.0, or 7.1 currently) or omit it and be given a default.
+    
+    2 thoughts for the future:
+    
+    -not sure if there's a better place to define the default so we're not hardcoding it in everywhere here.
+    - probably should write a test to avoid this regression again.
+
+[33mcommit ee580963250b7f4e66c363ffd81ef9725669413f[m[33m ([m[1;33mtag: v6.0.3[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Fri Aug 4 17:36:36 2017 -0500
+
+    💎 🔖 Tagging 6.0.3
+
+[33mcommit f2b5cbd5b8efe410a6e8e05e74ea9452f80d6007[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Fri Aug 4 17:35:45 2017 -0500
+
+    🚑 Disable apparmor when installing mariadb so it won't cause issues w/ restart (#636)
+
+[33mcommit 5c740848ea318d6aad748f44bd870e29861d7023[m[33m ([m[1;33mtag: v6.0.2[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Wed Aug 2 09:04:36 2017 -0500
+
+    💎 🔖 Tagging 6.0.2
+
+[33mcommit c669a03d8b00e346236bdc5c1ddffb7607f82d8f[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Wed Aug 2 09:02:07 2017 -0500
+
+    ❄️ 🚑 ✅ Make command should respect Homestead config example file (#624)
+    
+    * ❄️ 🚑 ✅ Make command should respect Homestead config example file
+    
+    The make command should now correctly copy over all site options and folder options from an existing example file.
+    
+    * Apply fixes from StyleCI (#623)
+    
+    * Contributions to #624 (#627)
+    
+    * Restore docblocks formatting
+    
+    This allows to maintain consistency with the docblocks style from the
+    repositories laravel/laravel and laravel/framework.
+    
+    * Add more tests for shared folders configuration
+
+[33mcommit 1a87e2dc4ed0da81f313d95a3e54d295ce0871ff[m[33m ([m[1;33mtag: v6.0.1[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Mon Jul 31 20:32:09 2017 -0500
+
+    🚑 Fixing site params not being read correctly from serve scripts (#626)
+    
+    While debugging #625 I noticed params weren't being set correctly because we added the php version to the site params bumping the params to $6 instead of $5
+
+[33mcommit f7cc6d5b8fd0734cad622ebe441e25fbc39f5c5a[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Mon Jul 31 20:31:39 2017 -0500
+
+    💎 🔖 Tagging 6.0.1
+
+[33mcommit 45d432aa3c0a8f1b1153d2ea1d602d61b144791d[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Sat Jul 29 10:36:26 2017 -0400
+
+    🚑 🚀 When configuring apache always ensure mod_rewrite is enabled (#622)
+
+[33mcommit 195835f5ea87058fc55ae3ebf6b9f10af7701b46[m[33m ([m[1;33mtag: v6.0.0[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Sat Jul 29 10:08:41 2017 -0400
+
+    💎 🔖 Tagging v6.0.0
+
+[33mcommit 3001d2fef1072092124f1d01616624bde47222f0[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Sat Jul 29 10:07:17 2017 -0400
+
+    ✨ ❄️ 💡 Add support for multiple versions of PHP (#621)
+
+[33mcommit c79f5319eb80ddb9586480b54491d0a59540f18a[m
+Author: Ismayil Khayredinov <info@hypejunction.com>
+Date:   Fri Jul 21 15:58:11 2017 +0200
+
+    Add nginx config for Elgg sites (#616)
+    
+    Adds template shell config to easily bootstrap Elgg sites on Homestead.
+    
+    Fixes #615
+
+[33mcommit 2892254d47da9da2b39022870f049231bb7aafe4[m
+Author: Miguel Piedrafita <github@miguelpiedrafita.com>
+Date:   Wed Jul 19 01:31:18 2017 +0100
+
+    The safer, the better (#613)
+    
+    Any link that can be HTTPS, should be HTTPS :closed_lock_with_key:
+
+[33mcommit 2962877adaae8c2efc7a0063b41f0711b5d6d350[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Thu Jun 22 13:56:06 2017 -0500
+
+    ✨ 💡 Make sure not use the `Code` subfolder in vagrant, should use top level (#601)
+    
+    There is no reason to add another folder inside vagrant that we map our projects to. This change will elimnate sites being placed in `/home/vagrant/Code/` and place them in `/home/vagrant/`
+
+[33mcommit 6a558d4598014f0a79ffbf521dba0de48939074c[m
+Author: Michael Smith <sitecross@gmail.com>
+Date:   Thu Jun 22 13:55:57 2017 -0500
+
+    add Symfony4 nginx configuration (#600)
+    
+    * add Symfony4 nginx configuration
+    
+    * add aliases for symfony4
+
+[33mcommit f54a9f0b6a0de85c96d5e82fd94a563d979f8288[m[33m ([m[1;33mtag: v5.4.0[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Fri Jun 9 09:53:37 2017 -0400
+
+    💎 Tagging 5.4.0 (#595)
+
+[33mcommit b33b74cb7c614515dbde9f4ccaa1beee6c9a7d8e[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Fri Jun 9 09:40:24 2017 -0400
+
+    ✨ Always use debian noninteractive mode when we do stuff w/ apt (#594)
+
+[33mcommit 140398de705e713af1834bcc4fcbdd0678ea9a89[m
+Author: Julio Castro <jec_ar@hotmail.com>
+Date:   Fri Jun 9 10:38:12 2017 -0300
+
+    couchdb support (#591)
+
+[33mcommit 09e81dc7eb48562deeb1cce10b8c24b4918fb682[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Fri Jun 9 09:37:56 2017 -0400
+
+    ✨ 🚑 Gracefully handle missing SSH keys or bad filenames. Fixes #592 (#593)
+
+[33mcommit da8ca5fa6f8b5507d3f92a0f14cc4987122e62b9[m
+Author: Umut KIRGÖZ <umut.kirgoz@gmail.com>
+Date:   Fri May 26 17:22:50 2017 +0300
+
+    Broken SSL support is fixed (#583)
+    
+    * Adding SSL support to Apache
+    
+    * Fix for SSL with Apache, certificates were not found before
+    
+    * AllowOverride is added
+    
+    * AllowOverride is added
+    
+    * Ports are now depend on config
+    
+    * Project ignore folders removed
+
+[33mcommit bda257f652564b88867a3c6ba10070ef5f8d3167[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Fri May 26 10:12:20 2017 -0400
+
+    🎨 🐎 Refactor tests to use phpunit assertions to be more descriptive (#585)
+    
+    * 🎨 🐎 Refactor tests to use phpunit assertions to be more descriptive
+    
+    * Apply fixes from StyleCI (#584)
+
+[33mcommit 1f571677bca30cc9873157e104bd7a7369df94ee[m
+Author: Roberto Aguilar <roberto.aguilar.arrieta@gmail.com>
+Date:   Thu May 25 19:53:27 2017 -0500
+
+    Feature/localized files (#581)
+    
+    * Move LocalizedVagrantfile into localized directory
+    
+    * Create localized files in per project installations
+    
+    * Update scripts path in localized aliases
+
+[33mcommit 65fb7c5cba2847fcb95eb0758ac2696b19d06277[m[33m ([m[1;33mtag: v5.3.2[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Fri May 19 03:20:56 2017 -0500
+
+    🚑 🔖 💎 Install apache w/ noninteractive flag & version bump to 5.3.2 (#578)
+
+[33mcommit ec5933c686e1084a30d7871992f2fbcaf6b15db3[m[33m ([m[1;33mtag: v5.3.1[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Tue May 16 21:11:31 2017 -0500
+
+    💎 🔖 Tagging 5.3.1 (#573)
+
+[33mcommit 07992a56b8a1f6d3a9cedc5537a0779881e963d6[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Tue May 16 21:04:13 2017 -0500
+
+    ✨ 🚑 Create SSL certs when creating sites via aliases shortcut commands (#572)
+    
+    Resolves / Fixes #570
+
+[33mcommit 30538185078f3226a75953eaa57efa0cde145981[m[33m ([m[1;33mtag: v5.3.0[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Thu May 11 22:00:20 2017 -0500
+
+    💎 🔖 Tagging 5.3.0 (#569)
+
+[33mcommit 4407555ceedd84a82518d7aed66eb1af6cd53d68[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Tue May 9 19:37:02 2017 -0500
+
+    🚑 ❄️ 🎨 Code style fixes and add site parameter support to missing site scripts (#567)
+
+[33mcommit 93c913a2a83e5ed170542bec270292e3ed234de3[m
+Author: Afriat Yaniv <yaniv.afriat@johnpaul.com>
+Date:   Wed May 10 02:13:37 2017 +0200
+
+    Adding checks about variables (#565)
+    
+    * Adding environment variables per sites for laravel apache and symfony same usage as global variables
+    
+    * testing variables per sites
+    
+    * Adding Apache and symfony testing
+    
+    * Small review regarding variables should be ok this time
+
+[33mcommit 864281b6b6d52a2f03a3e9152a1646c48973106b[m
+Author: Roberto Aguilar <roberto.aguilar.arrieta@gmail.com>
+Date:   Mon May 8 21:04:30 2017 -0500
+
+    Update aliases and after options (#564)
+
+[33mcommit 400e7e581fd4d4fe5be561e788c29c9dba9a9ee1[m
+Author: Afriat Yaniv <yaniv.afriat@johnpaul.com>
+Date:   Tue May 9 04:02:03 2017 +0200
+
+    Adding environment variables per sites for laravel apache and symfony same usage as global variables (#563)
+
+[33mcommit 77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb[m[33m ([m[1;33mtag: v5.2.4[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Wed Apr 26 10:43:12 2017 -0500
+
+    🔖 Tagging 5.2.4 (#557)
+
+[33mcommit b121cb4a9a364817164b4bc96da31f1d21d22018[m[33m ([m[1;33mtag: 5.2.3[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Sat Apr 22 11:40:49 2017 -0500
+
+    🔖 Tagging 5.2.3 (#553)
+
+[33mcommit 467bcf686a50d15a73e2c66b8a55d64967156056[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Sat Apr 22 11:34:34 2017 -0500
+
+    🔖 Tagging 5.2.2 (#552)
+
+[33mcommit be8d392f067b72f84455d126dc0326aa82e8cb03[m[33m ([m[1;33mtag: 5.2.2[m[33m)[m
+Author: Matt Lantz <matt@yabhq.com>
+Date:   Sat Apr 22 12:30:04 2017 -0400
+
+    Cleans up leftover schedules (#551)
+
+[33mcommit 1fa40ce3f045c4558fa4fb8c5739d089351f4588[m
+Author: Tom Castleman <tomcastleman@users.noreply.github.com>
+Date:   Tue Apr 18 16:30:28 2017 +0100
+
+    Adds alias for php-cli with xdebug and auto remote connect (#545)
+    
+    * Add alias for xdebug cli remote debugging
+    
+    * use bridge gateway address
+    
+    * rename alias
+
+[33mcommit aa21197725fee0a5974a9440277c14b83c32b9a6[m
+Author: Jordan Pittman <jordan@cryptica.me>
+Date:   Thu Apr 13 14:18:50 2017 -0400
+
+    Database import/export aliases (#542)
+    
+    * Add rudimentary db import/export aliases
+    
+    * Add support for using PV to monitor progress
+    
+    * Add import progress to PV by calcuating an estimated file size
+    
+    * Add installation message for PV
+
+[33mcommit 705778909c49491b659089b4ae40f30da33e1372[m[33m ([m[1;33mtag: v5.2.1[m[33m)[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Mon Apr 10 18:12:13 2017 -0500
+
+    Tagging 5.2.1
+    
+    Tagged 5.2.0 before the PR updating the version was done. Retagging now.
+
+[33mcommit 853806c7e89dd9eef8c6336b9463be0041a258c0[m
+Author: Joe Ferguson <joe@joeferguson.me>
+Date:   Mon Apr 10 18:10:32 2017 -0500
+
+    🔖 Tagging 5.2.0 (#541)
+
+[33mcommit 1835ccb64ec8f371bef2d2db83fc53565c36c1d4[m[33m ([m[1;33mtag: v5.2.0[m[33m)[m
+Author: Dries Vints <dries.vints@gmail.com>
+Date:   Mon Apr 10 23:54:33 2017 +0200
+
+    Use full path to Homestead config file (#540)
+    
+    This allows us to halt the VM from anywhere on the system.
+
+[33mcommit 39deddb493d448056d19b7201893f801f59c1c8d[m
+Author: Wade Urry <iWader@users.noreply.github.com>
+Date:   Wed Apr 5 23:46:32 2017 +0100
+
+    Add support for SPA site types (#537)
+
+[33mcommit df0387c146f499b33adaf59d9435ca742024abf4[m
+Author: Michał <padalec@users.noreply.github.com>
+Date:   Tue Apr 4 20:39:35 2017 +0200
+
+    Fix for apache log dir variable (#536)
+    
+    Before my changes all logs was placed in root folder and all sites was saved to one file for access log and one for error log.
+
+[33mcommit ac3509d949b0c28886922d4415393d25b6e9d9b8[m
+Merge: 43a5550 37f8ebc
+Author: Taylor Otwell <taylor@laravel.com>
+Date:   Thu Mar 30 08:34:16 2017 -0500
+
+    Merge pull request #533 from wturrell/patch-1
+    
+    Fix bash typo in create-certificate.sh
+
+[33mcommit 37f8ebc33956671b7bb49ca8cc8184e5c0e63b19[m
+Author: William Turrell <william@wturrell.co.uk>
+Date:   Thu Mar 30 12:41:35 2017 +0100
+
+    Fix bash typo in create-certificate.sh
+    
+    Without this, typical output for each certificate is:
+    ==> homestead: /tmp/vagrant-shell: line 11: -f: command not found
+    and existing certificates are regenerated unnecessarily.
+
+[33mcommit 43a55507e8c37f6f8d5ae1137f2302a62349be4b[m
+Merge: 3a7bb9e a1d1226
+Author: Taylor Otwell <taylor@laravel.com>
+Date:   Mon Mar 27 19:34:24 2017 -0500
+
+    Merge pull request #532 from svpernova09/feature/dusk-in-homestead
+    
+    ✨ 🎀 ❄️ Add alias support to run dusk
+
+[33mcommit a1d12261cd0ce1711d056fd7fa50854b2d812346[m
+Author: Taylor Otwell <taylor@laravel.com>
+Date:   Mon Mar 27 19:34:13 2017 -0500
+
+    Update aliases
