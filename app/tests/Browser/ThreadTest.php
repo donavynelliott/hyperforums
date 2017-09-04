@@ -23,7 +23,7 @@ class ThreadTest extends DuskTestCase
         });
     }
 
-    public function testUserCanViewSingleThread() 
+    public function testUserCanSeeSingleThread() 
     {
         $thread = factory('App\Thread')->create();
 
@@ -31,6 +31,19 @@ class ThreadTest extends DuskTestCase
             $browser->visit('/forum')
                             ->clickLink($thread->title)
                             ->assertSee($thread->body);
+        });
+    }
+
+    public function testUserCanSeeThreadReplies()
+    {
+        $thread = factory('App\Thread')->create();
+        $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
+
+        $this->browse(function ($browser) use ($thread, $reply) {
+            $browser->visit('/forum')
+                            ->clickLink($thread->title)
+                            ->assertSee($reply->body);
+                            
         });
     }
 }
