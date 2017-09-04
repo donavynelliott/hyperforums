@@ -8,14 +8,17 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ThreadTest extends DuskTestCase
 {
-    /**
-     * A Dusk test example.
-     *
-     * @return void
-     */
+    public function setUp()
+    {
+        parent::setUp();
+        
+        $this->thread = factory('App\Thread')->create();
+        $this->reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
+    }
+
     public function testUserCanSeeThreads()
     {
-        $thread = factory('App\Thread')->create();
+        $thread = $this->thread;
 
         $this->browse(function ($browser) use ($thread) {
             $browser->visit('/forum')
@@ -25,7 +28,7 @@ class ThreadTest extends DuskTestCase
 
     public function testUserCanSeeSingleThread() 
     {
-        $thread = factory('App\Thread')->create();
+        $thread = $this->thread;
 
         $this->browse(function ($browser) use ($thread) {
             $browser->visit('/forum')
@@ -36,8 +39,8 @@ class ThreadTest extends DuskTestCase
 
     public function testUserCanSeeThreadReplies()
     {
-        $thread = factory('App\Thread')->create();
-        $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
+        $thread = $this->thread;
+        $reply = $this->reply;
 
         $this->browse(function ($browser) use ($thread, $reply) {
             $browser->visit('/forum')
