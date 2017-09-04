@@ -18,20 +18,7 @@ class ForumTest extends TestCase
      */
     public function testForum()
     {
-        $thread = factory('App\Thread')->create();
-
         $this->get('/forum')->assertStatus(200);
-
-        $this->assertSee($thread->title);
-    }
-
-    public function testAUserCanBrowseThreads()
-    {
-
-    }
-
-    public function testForumFactories() {
-
     }
     
 }
