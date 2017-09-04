@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -14,7 +15,7 @@ class UserTest extends TestCase
      */
     public function testUserDashboard()
     {
-    	$user = factory(\App\User::class)->create();
+    	$user = factory(User::class)->make();
 
     	$this->actingAs($user)
     		->get('home')

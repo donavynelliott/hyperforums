@@ -2,6 +2,10 @@
 
 namespace Tests\Unit;
 
+use App\Reply;
+use App\Thread;
+use App\User;
+
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -14,7 +18,16 @@ class ForumTest extends TestCase
      */
     public function testForum()
     {
-        $this->get('/forum')->assertViewIs('forum');
+        $this->get('/forum')->assertStatus(200);
+    }
+
+    public function aUserCanBrowseThreads()
+    {
+
+    }
+
+    public function testForumFactories() {
+
     }
     
 }
