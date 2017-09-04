@@ -10,4 +10,9 @@ class Thread extends Model
 	{
 		return $this->hasMany('App\Reply');	
 	}
+
+	public function user()
+	{
+		return $this->hasOne('App\User');
+	}
 }
