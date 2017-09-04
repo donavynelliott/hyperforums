@@ -10,7 +10,9 @@
                 <div class="panel-body">
                     @foreach ($threads as $thread)
                         <article>
-                            <h4>{{ $thread->title }}</h4>
+                            <a href="{{ route('forum.show', $thread) }}">
+                                <h4>{{ $thread->title }}</h4>
+                            </a>
                         </article>
                         <hr>
                     @endforeach

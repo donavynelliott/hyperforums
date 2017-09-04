@@ -22,4 +22,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Forums
 
 Route::get('/forum', 'ThreadController@index')->name('forum');
-Route::get('/forum/{thread}', 'ThreadController@show')->name('forumThread');
+Route::get('/forum/{thread}', 'ThreadController@show')->name('forum.show');
