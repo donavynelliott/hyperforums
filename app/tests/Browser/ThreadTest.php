@@ -22,4 +22,15 @@ class ThreadTest extends DuskTestCase
                             ->assertSee($thread->title);
         });
     }
+
+    public function testUserCanViewSingleThread() 
+    {
+        $thread = factory('App\Thread')->create();
+
+        $this->browse(function ($browser) use ($thread) {
+            $browser->visit('/forum')
+                            ->clickLink($thread->title)
+                            ->assertSee($thread->body);
+        });
+    }
 }
