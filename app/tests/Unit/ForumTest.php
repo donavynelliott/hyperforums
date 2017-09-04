@@ -23,7 +23,7 @@ class ForumTest extends TestCase
 
     public function aUserCanBrowseThreads()
     {
-
+    	
     }
 
     public function testForumFactories() {
