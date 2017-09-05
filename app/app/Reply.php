@@ -8,11 +8,11 @@ class Reply extends Model
 {
     public function thread()
     {
-    	return $this->hasOne('App\Thread');
+    	return $this->belongsTo('App\Thread');
     }
 
     public function user()
     {
-    	return $this->hasOne('App\User');
+    	return $this->belongsTo('App\User');
     }
 }

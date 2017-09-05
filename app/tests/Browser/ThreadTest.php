@@ -32,8 +32,10 @@ class ThreadTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($thread) {
             $browser->visit('/forum')
-                            ->clickLink($thread->title)
-                            ->assertSee($thread->body);
+                            ->clickLink($thread->title) //click on link
+                            ->assertSee($thread->title) //title is visible
+                            ->assertSee($thread->body) //body is visible
+                            ->assertSee($thread->user->name); //author is visible
         });
     }
 
@@ -44,8 +46,10 @@ class ThreadTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($thread, $reply) {
             $browser->visit('/forum')
-                            ->clickLink($thread->title)
-                            ->assertSee($reply->body);
+                            ->clickLink($thread->title) //click on link
+                            ->assertSee($thread->title)
+                            ->assertSee($reply->body) //body is visible
+                            ->assertSee($reply->user->name); //author is visible
                             
         });
     }
