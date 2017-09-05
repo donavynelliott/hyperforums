@@ -19,7 +19,10 @@ class ProfileTest extends DuskTestCase
         $user_id = $user->id;
 
         $this->browse(function (Browser $browser) use ($user, $user_id) {
-            $browser->visit("/profile/${user_id}")
+            $browser->loginAs($user)
+                    ->visit("/profile/${user_id}")
+                    ->assertSee($user->name)
+                    ->visit("/profile")
                     ->assertSee($user->name);
         });
     }
