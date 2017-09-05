@@ -12,7 +12,10 @@
                 </div>
 
                 <div class="panel-body">
-                    Posted: {{ $thread->created_at->diffForHumans() }} by  {{ $thread->user->name }}
+                    Posted: {{ $thread->created_at->diffForHumans() }} by  
+                    <a href="{{ route('profile', $thread->user->id) }}">
+                        {{ $thread->user->name }}
+                    </a>
                 </div>
 
             </div>

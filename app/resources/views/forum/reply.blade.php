@@ -4,7 +4,10 @@
     </div>
 
     <div class="panel-body">
-        Posted: {{ $reply->created_at->diffForHumans() }} by  {{ $reply->user->name }}
+        Posted: {{ $reply->created_at->diffForHumans() }} by  
+        <a href="{{ route('profile', $reply->user->id ) }}">
+        	{{ $reply->user->name }}
+        </a>
     </div>
 
 </div>

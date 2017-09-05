@@ -19,7 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile/{id?}', 'UserController@show')->name('profile');
-Route::get('/profile', 'UserController@index')->name('profile');
 
 //Forums
 

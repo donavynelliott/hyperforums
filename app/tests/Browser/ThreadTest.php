@@ -35,7 +35,9 @@ class ThreadTest extends DuskTestCase
                             ->clickLink($thread->title) //click on link
                             ->assertSee($thread->title) //title is visible
                             ->assertSee($thread->body) //body is visible
-                            ->assertSee($thread->user->name); //author is visible
+                            ->assertSee($thread->user->name) //author is visible
+                            ->clickLink($thread->user->name) //click on author profile
+                            ->assertSee($thread->user->name); //profile is authors 
         });
     }
 
@@ -49,7 +51,9 @@ class ThreadTest extends DuskTestCase
                             ->clickLink($thread->title) //click on link
                             ->assertSee($thread->title)
                             ->assertSee($reply->body) //body is visible
-                            ->assertSee($reply->user->name); //author is visible
+                            ->assertSee($reply->user->name) //author is visible
+                            ->clickLink($reply->user->name) //click on author profile
+                            ->assertSee($reply->user->name); //is authors profile
                             
         });
     }
