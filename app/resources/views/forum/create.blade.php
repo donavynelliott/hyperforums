@@ -7,14 +7,21 @@
             <div class="panel panel-default">
                 {!! Form::open(['url' => 'threads']) !!}
                 <div class="panel-heading">
-                    {!! Form::label('title', 'Thread Title') !!}
-                    {!! Form::text('title') !!}
+                    <div class="form-group">
+                        {{ Form::label('title', 'Thread Title') }}
+                        {{ Form::text('title', null, array('class'=>'form-control') ) }}
+                    </div>
                 </div>
 
                 <div class="panel-body">
-                    {!! Form::label('body', 'Thread Content') !!}
-                    {!! Form::textarea('body') !!}
-                    {!! Form::submit('Submit') !!}
+                    <div class="form-group">
+                        {{ Form::label('body', 'Thread Content') }}
+                        {{ Form::textarea('body', null, array('class'=>'form-control')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ Form::submit('Submit', array('class'=>'btn btn-default')) }}
+                    </div>
                 </div>
 
                 {!! Form::close() !!}
