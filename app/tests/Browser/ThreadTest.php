@@ -58,15 +58,18 @@ class ThreadTest extends DuskTestCase
         });
     }
 
-    public function testUserCanSubmitNewThread()
+    public function testAuthenticatedUsersCanSubmitNewThread()
     {
         $user = factory('App\User')->create();
         $this->browse(function ($browser) use ($user) {
-            $browser->visit('/threads/create')
+            $browser->loginAs($user)
+                            ->visit('/threads/create')
                             ->type('title', 'This is a title')
                             ->type('body', 'This is a body')
-                            ->click('#submit')
-                            ->assertSee('Thread Submitted!');
+                            ->click('[type="submit"')
+                            ->assertPathBeginsWith('/threads/')
+                            ->assertSee('This is a title')
+                            ->assertSee('This is a body');
         }) ;  
     }
 }

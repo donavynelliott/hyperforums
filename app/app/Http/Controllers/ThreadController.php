@@ -25,7 +25,7 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        //
+        return view('forum.create');
     }
 
     /**
@@ -36,7 +36,18 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $title = $request->input('title');
+        $body = $request->input('body');
+        $user = $request->user()->id;
+
+        $thread = new Thread();
+        $thread->title = $title;
+        $thread->body = $body;
+        $thread->user_id = $user;
+
+        $thread->save();
+
+        return redirect()->route('threads.show', $thread);
     }
 
     /**
