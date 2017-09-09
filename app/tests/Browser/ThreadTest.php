@@ -14,6 +14,7 @@ class ThreadTest extends DuskTestCase
         
         $this->thread = factory('App\Thread')->create();
         $this->reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
+        $this->user = factory('App\User')->create();
     }
 
     public function testUserCanSeeThreads()
@@ -60,7 +61,7 @@ class ThreadTest extends DuskTestCase
 
     public function testAuthenticatedUsersCanSubmitNewThread()
     {
-        $user = factory('App\User')->create();
+        $user = $this->user;
         $this->browse(function ($browser) use ($user) {
             $browser->loginAs($user)
                             ->visit('/threads/create')
@@ -71,5 +72,19 @@ class ThreadTest extends DuskTestCase
                             ->assertSee('This is a title')
                             ->assertSee('This is a body');
         }) ;  
+    }
+
+    public function testAuthenticatedUsersCanSubmitReplyToThread()
+    {
+        $user = $this->user;
+        $thread = $this->thread;
+        $this->browse(function ($browser) use ($user, $thread) {
+            $browser->loginAs($user)
+                            ->visit('/threads/' . $thread->id)
+                            ->type('body', 'This is a reply')
+                            ->click('[type="submit"]')
+                            ->assertSee('This is a reply')
+                            ->assertSee($user->name);
+        });
     }
 }
