@@ -26,3 +26,4 @@ Route::get('/forum/{thread}', 'ThreadController@show')->name('forum.show');
 
 
 Route::resource('threads', 'ThreadController')->middleware('auth');
+Route::post('/threads/{thread}/replies', 'ReplyController@store')->middleware('auth');

@@ -21,4 +21,9 @@ class Thread extends Model
 	{
 		return $this->belongsTo('App\User');
 	}
+
+	public function addReply(array $reply)
+	{
+		$this->replies()->create($reply);
+	}
 }

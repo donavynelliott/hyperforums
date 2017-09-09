@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
+use App\Thread;
 use Illuminate\Http\Request;
 
 class ReplyController extends Controller
@@ -33,9 +34,14 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Thread $thread)
     {
-        //
+        $thread->addReply( array(
+            'body' => $request->input('body'),
+            'user_id' => $request->user()->id,
+            ));
+
+        return back();
     }
 
     /**

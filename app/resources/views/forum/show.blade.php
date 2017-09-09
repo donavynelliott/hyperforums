@@ -19,9 +19,32 @@
                 </div>
 
             </div>
+
+            <!-- Show Replies -->
             @foreach ($thread->replies as $reply)
                  @include('forum.reply')
             @endforeach
+
+            <!-- Show Reply Form -->
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                     {!! Form::open(['url' => 'threads/' . $thread->id . '/replies']) !!}
+
+                     <div class="form-group">
+                            {{ Form::label('body', 'Reply to thread') }}
+                            {{ Form::textarea('body', null, array('class'=>'form-control')) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ Form::submit('Submit', array('class'=>'btn btn-default')) }}
+                    </div>
+
+                    {!! Form::close() !!}
+
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
