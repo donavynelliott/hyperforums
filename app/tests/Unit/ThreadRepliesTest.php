@@ -14,7 +14,7 @@ class ThreadRepliesTest extends TestCase
 	public function setUp()
 	{	
 		parent::setUp();
-		$this->thread = factory(Thread::class)->create();
+		$this->thread = factory('App\Thread')->create();
 	}
 
 	public function testCreatingRepliesToAThread()

@@ -47,7 +47,7 @@ class ThreadController extends Controller
 
         $thread->save();
 
-        return redirect()->route('threads.show', $thread);
+        return redirect()->route('forum.show', $thread);
     }
 
     /**
