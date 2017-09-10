@@ -80,7 +80,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Hyper Forums
                 </div>
 
                 <div class="links">
