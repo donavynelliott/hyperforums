@@ -42,23 +42,6 @@ class ThreadTest extends DuskTestCase
         });
     }
 
-    public function testUserCanSeeThreadReplies()
-    {
-        $thread = $this->thread;
-        $reply = $this->reply;
-
-        $this->browse(function ($browser) use ($thread, $reply) {
-            $browser->visit('/forum')
-                            ->clickLink($thread->title) //click on link
-                            ->assertSee($thread->title)
-                            ->assertSee($reply->body) //body is visible
-                            ->assertSee($reply->user->name) //author is visible
-                            ->clickLink($reply->user->name) //click on author profile
-                            ->assertSee($reply->user->name); //is authors profile
-                            
-        });
-    }
-
     public function testAuthenticatedUsersCanSubmitNewThread()
     {
         $user = $this->user;
@@ -72,19 +55,5 @@ class ThreadTest extends DuskTestCase
                             ->assertSee('This is a title')
                             ->assertSee('This is a body');
         }) ;  
-    }
-
-    public function testAuthenticatedUsersCanSubmitReplyToThread()
-    {
-        $user = $this->user;
-        $thread = $this->thread;
-        $this->browse(function ($browser) use ($user, $thread) {
-            $browser->loginAs($user)
-                            ->visit('/threads/' . $thread->id)
-                            ->type('body', 'This is a reply')
-                            ->click('[type="submit"]')
-                            ->assertSee('This is a reply')
-                            ->assertSee($user->name);
-        });
     }
 }

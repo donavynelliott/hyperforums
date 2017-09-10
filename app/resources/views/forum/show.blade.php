@@ -26,6 +26,7 @@
             @endforeach
 
             <!-- Show Reply Form -->
+            @auth
             <div class="panel panel-default">
                 <div class="panel-body">
 
@@ -44,6 +45,16 @@
 
                 </div>
             </div>
+            @else
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a id="login-to-reply" href="{{ route('login') }}">
+                        Login
+                    </a>
+                    to reply to threads.
+                </div>
+            </div>
+            @endauth
 
         </div>
     </div>
