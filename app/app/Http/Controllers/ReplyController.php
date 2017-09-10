@@ -52,7 +52,6 @@ class ReplyController extends Controller
      */
     public function show(Reply $reply)
     {
-        return $reply;
     }
 
     /**

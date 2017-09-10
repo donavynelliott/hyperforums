@@ -36,12 +36,13 @@ class ThreadController extends TestCase
 
     public function testThreadControllerStore()
     {
+        $user = $this->user;
         $thread = array(
                             'title' => 'testThreadControllerStoreTitle',
                             'body' => 'testThreadControllerStoreBody',
-                            'user_id' => $this->user->id
+                            'user_id' => $user->id
                         );
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($user)
                                     ->post('threads', $thread);
         $response->assertStatus(302);
     }

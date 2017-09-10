@@ -51,7 +51,7 @@ class ThreadTest extends DuskTestCase
                             ->type('title', 'This is a title')
                             ->type('body', 'This is a body')
                             ->click('[type="submit"')
-                            ->assertPathBeginsWith('/threads/')
+                            ->assertPathBeginsWith('/forum/')
                             ->assertSee('This is a title')
                             ->assertSee('This is a body');
         }) ;  
