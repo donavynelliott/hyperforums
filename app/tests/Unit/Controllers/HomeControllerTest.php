@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class HomeController extends TestCase
 {
+	use RefreshDatabase;
 	public function setUp()
 	{
 		parent::setUp();

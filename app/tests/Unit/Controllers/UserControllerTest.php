@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class UserController extends TestCase
 {
 	use RefreshDatabase;
+	
 	public function setUp()
 	{
 		parent::setUp();

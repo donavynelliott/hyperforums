@@ -2,6 +2,13 @@
 
 use Faker\Generator as Faker;
 
+$factory->define(App\Forum::class, function (Faker $faker) {
+	return [
+		'name' => $faker->company,
+		'priority' => $faker->numberBetween(1, 20)
+	];
+});
+
 $factory->define(App\Thread::class, function (Faker $faker) {
 
 	return [

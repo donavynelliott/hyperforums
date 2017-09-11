@@ -12,6 +12,11 @@ class Thread extends Model
 		'user_id'
 	];
 
+	public function forum()
+	{
+		return $this->belongsTo('App\Forum');
+	}
+
 	public function replies()
 	{
 		return $this->hasMany('App\Reply');	

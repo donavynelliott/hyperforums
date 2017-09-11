@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile/{id?}', 'UserController@show')->name('profile');
 
 //Forums
-Route::get('/forum', 'ThreadController@index')->name('forum');
+Route::get('/forum', 'ForumController@index')->name('forum');
 Route::get('/forum/{thread}', 'ThreadController@show')->name('forum.show');
 
 
