@@ -15,7 +15,7 @@ class ForumController extends Controller
      */
     public function index()
     {
-        $forums = Forum::orderBy('priority', 'name')
+        $forums = Forum::orderBy('priority', 'asc')
                                     ->get();
         $threads = Thread::latest()->get();
         return view('forum.index', compact('forums', 'threads'));
@@ -50,7 +50,7 @@ class ForumController extends Controller
      */
     public function show(Forum $forum)
     {
-        //
+        return view('forum.thread.index', compact('forum'));
     }
 
     /**

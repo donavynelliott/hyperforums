@@ -22,7 +22,7 @@ class ThreadTest extends DuskTestCase
         $thread = $this->thread;
 
         $this->browse(function ($browser) use ($thread) {
-            $browser->visit('/forum')
+            $browser->visit('/forum/' . $thread->forum->id)
                             ->assertSee($thread->title);
         });
     }
@@ -32,7 +32,7 @@ class ThreadTest extends DuskTestCase
         $thread = $this->thread;
 
         $this->browse(function ($browser) use ($thread) {
-            $browser->visit('/forum')
+            $browser->visit('/forum/' . $thread->forum->id)
                             ->clickLink($thread->title) //click on link
                             ->assertSee($thread->title) //title is visible
                             ->assertSee($thread->body) //body is visible

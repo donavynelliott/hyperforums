@@ -23,7 +23,7 @@
 
             <!-- Show Replies -->
             @foreach ($thread->replies as $reply)
-                 @include('forum.reply')
+                 @include('forum.thread.reply')
             @endforeach
 
             <!-- Show Reply Form -->
@@ -31,7 +31,7 @@
             <div class="card">
                 <div class="card-body">
 
-                     {!! Form::open(['url' => 'threads/' . $thread->id . '/replies']) !!}
+                     {!! Form::open(['url' => '/forum/' . $thread->forum->id . '/threads/' . $thread->id . '/replies']) !!}
 
                      <div class="form-group">
                             {{ Form::label('body', 'Reply to thread') }}

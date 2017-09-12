@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Forum;
 use App\Thread;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,7 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        return view('forum.create');
+        return view('forum.thread.create');
     }
 
     /**
@@ -47,7 +48,7 @@ class ThreadController extends Controller
 
         $thread->save();
 
-        return redirect()->route('forum.show', $thread);
+        return redirect()->route('forum.thread.show', $thread);
     }
 
     /**
@@ -56,9 +57,9 @@ class ThreadController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show(Forum $forum, Thread $thread)
     {
-        return view('forum.show', compact('thread'));
+        return view('forum.thread.show', compact('thread'));
     }
 
     /**

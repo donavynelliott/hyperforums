@@ -15,6 +15,9 @@ $factory->define(App\Thread::class, function (Faker $faker) {
 		'user_id' => function () {
 		    	return factory('App\User')->create()->id;
 		},
+		'forum_id'	=> function() {
+			return factory('App\Forum')->create()->id;
+		},
 		'title' => $faker->sentence,
 		'body' => $faker->paragraph,
 	];

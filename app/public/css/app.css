@@ -9557,3 +9557,11 @@ button,
   cursor: pointer;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
+.float-right {
+  float: right;
+}
+

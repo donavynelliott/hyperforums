@@ -22,4 +22,15 @@ class ForumTest extends DuskTestCase
                             ->assertSee($forum->name);
         });
     }
+
+    public function testAllUsersCanSeeForumThreadCount()
+    {
+        $forum = $this->forum;
+        $threadCount = $forum->threads->count();
+
+        $this->browse(function ($browser) use ($forum, $threadCount) {
+            $browser->visit('/forum')
+                    ->assertSeeIn('[name="forum_' . $forum->id . '_thread_count"]', $threadCount);
+        });
+    }
 }

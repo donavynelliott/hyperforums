@@ -22,8 +22,10 @@ Route::get('/profile/{id?}', 'UserController@show')->name('profile');
 
 //Forums
 Route::get('/forum', 'ForumController@index')->name('forum');
-Route::get('/forum/{thread}', 'ThreadController@show')->name('forum.show');
+Route::get('/forum/{forum}', 'ForumController@show')->name('forum.show');
 
 
 Route::resource('threads', 'ThreadController')->middleware('auth');
-Route::post('/threads/{thread}/replies', 'ReplyController@store')->middleware('auth');
+Route::get('/forum/{forum}/threads/{thread}', 'ThreadController@show')->name('threads.show');
+Route::post('/forum/{forum}/threads/{thread}/replies', 'ReplyController@store')
+		->middleware('auth');
