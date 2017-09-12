@@ -1,13 +1,15 @@
-<div class="panel panel-default">
-    <div class="panel-body">
-        {{ $reply->body }} 
-    </div>
+<div class="card">
+    <div class="card-body">
+       	<p class="card-text"> 
+       		{{ $reply->body }} 
+       	</p>
+	<p class="card-text">
 
-    <div class="panel-body">
-        Posted: {{ $reply->created_at->diffForHumans() }} by  
-        <a href="{{ route('profile', $reply->user->id ) }}">
-        	{{ $reply->user->name }}
-        </a>
-    </div>
+		Posted: {{ $reply->created_at->diffForHumans() }} by
 
+		<a href="{{ route('profile', $reply->user->id ) }}">
+			{{ $reply->user->name }}
+		</a>
+	</p>
+    </div>
 </div>

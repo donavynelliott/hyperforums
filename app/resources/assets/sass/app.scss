@@ -5,5 +5,8 @@
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+#main-content {
+	.card {
+		margin-top: 1rem;
+	}
+}
