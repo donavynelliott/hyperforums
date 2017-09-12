@@ -24,8 +24,13 @@ Route::get('/profile/{id?}', 'UserController@show')->name('profile');
 Route::get('/forum', 'ForumController@index')->name('forum');
 Route::get('/forum/{forum}', 'ForumController@show')->name('forum.show');
 
-
+Route::get('/forum/{forum}/threads/create', 'ThreadController@create')->name('forum.addthread')
+		->middleware('auth');
 Route::resource('threads', 'ThreadController')->middleware('auth');
+
+//resource rewrites
 Route::get('/forum/{forum}/threads/{thread}', 'ThreadController@show')->name('threads.show');
+
+//reply doesn't need whole controller
 Route::post('/forum/{forum}/threads/{thread}/replies', 'ReplyController@store')
 		->middleware('auth');

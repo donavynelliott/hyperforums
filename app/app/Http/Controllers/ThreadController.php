@@ -26,7 +26,7 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        return view('forum.thread.create');
+        return view('forum.thread.create', compact('thread'));
     }
 
     /**
@@ -48,7 +48,7 @@ class ThreadController extends Controller
 
         $thread->save();
 
-        return redirect()->route('forum.thread.show', $thread);
+        return redirect()->route('forum.thread.show', compact('thread'));
     }
 
     /**

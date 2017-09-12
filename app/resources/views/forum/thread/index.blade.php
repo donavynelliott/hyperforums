@@ -10,7 +10,7 @@
                 <div class="card-header">
                     <h1 class="inline-block">{{ $forum->name }}</h1>
                     <div class="text-right float-right">
-                        <a href="{{ route('threads.create') }}">
+                        <a href="{{ route('forum.addthread', $forum) }}">
                             <button class="btn btn-default">New Thread</button>
                         </a>
                     </div>
