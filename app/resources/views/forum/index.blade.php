@@ -1,22 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
+
+                <div class="card-header">
+                    <h1>Forums</h1>
+                </div>
+
                 <div class="card-body">
-                    <h4 class="card-title">Forums</h4>
 
-                @foreach ($threads as $thread)
-                    <article>
-                        <a href="{{ route('forum.show', $thread) }}">
-                            <h4>{{ $thread->title }}</h4>
-                        </a>
-                    </article>
-                    <hr>
-                @endforeach
+                <table id="forums" class="table">
+                    <thead>
+                        <tr>
+                            <th>Forum</th>
+                            <th>Threads</th>
+                            <th>Replies</th>
+                        </tr>    
+                    </thead>
+                    <tbody>
 
+                        @foreach ($forums as $forum)
+                            <tr>
+                                
+                                <td>
+                                    <a href="{{ route('forum.show', $forum) }}">
+                                        {{ $forum->name }}
+                                    </a>
+                                </td>
+                                <td>{{$forum->threads->count()}}</td>
+                                <td>0</td>
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+                </table>
                 </div>
             </div>
         </div>

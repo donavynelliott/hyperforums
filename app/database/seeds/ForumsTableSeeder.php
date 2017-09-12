@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class ForumsTableSeeder extends Seeder
@@ -13,7 +14,9 @@ class ForumsTableSeeder extends Seeder
     {
         DB::table('forums')->insert([
         	'name'	=> 'Announcements',
-        	'priority' => 0
+        	'priority' => 0,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
     }
 }
