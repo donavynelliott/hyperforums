@@ -14,7 +14,7 @@ class ForumsTableSeeder extends Seeder
     {
         DB::table('forums')->insert([
         	'name'	=> 'Announcements',
-        	'priority' => 0,
+        	'priority' => 1000,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);

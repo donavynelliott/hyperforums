@@ -26,7 +26,7 @@
                         @foreach ($forums as $forum)
                             <tr>
                                 
-                                <td>
+                                <td name="forum_name">
                                     <a href="{{ route('forum.show', $forum) }}">
                                         {{ $forum->name }}
                                     </a>
