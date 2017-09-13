@@ -28,7 +28,7 @@ class ReplyController extends TestCase
 		);
 
 		$response = $this->actingAs($user)
-					->post('threads/' . $thread->id . '/replies', $reply);
+					->post('/forum/' . $thread->forum->id . '/threads/' . $thread->id . '/replies', $reply);
 
 		$response->assertStatus(302);
 	}

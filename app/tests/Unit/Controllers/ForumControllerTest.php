@@ -15,10 +15,10 @@ class ForumControllerTest extends TestCase
 
 	public function testForumControllerIndex()
 	{
-        $response = $this->get('forum');
+	        $response = $this->get('/forum');
 
-        $response->assertViewHas('forums')
-                        ->assertViewIs('forum.index');
+	        $response->assertViewHas('forums')
+	                        ->assertViewIs('forum.index');
 	}
 
 	public function testForumControllerShow()
@@ -26,7 +26,7 @@ class ForumControllerTest extends TestCase
 		$forum = $this->forum;
 		$response = $this->get('forum/' . $forum->id);
 
-		$response->assertViewHas(['forum', 'threads'])
-					->assertViewIs('forum.show');
+		$response->assertViewHas(['forum'])
+					->assertViewIs('forum.thread.index');
 	}
 }

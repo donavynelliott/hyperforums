@@ -28,14 +28,16 @@ class ThreadController extends TestCase
 
     public function testThreadControllerCreate()
     {
+        $forum_id = $this->thread->forum->id;
         $response = $this->actingAs($this->user)
-                                    ->get('threads/create');
+                                    ->get('/forum/' . $forum_id . '/threads/create');
 
-        $response->assertViewIs('forum.create');
+        $response->assertViewIs('forum.thread.create');
     }
 
     public function testThreadControllerStore()
     {
+        $forum_id = $this->thread->forum->id;
         $user = $this->user;
         $thread = array(
                             'title' => 'testThreadControllerStoreTitle',
@@ -43,16 +45,18 @@ class ThreadController extends TestCase
                             'user_id' => $user->id
                         );
         $response = $this->actingAs($user)
-                                    ->post('threads', $thread);
+                                    ->post('/forum/' . $forum_id . '/threads/store', $thread);
+
         $response->assertStatus(302);
     }
 
     public function testThreadControllerShow()
     {
         $thread = $this->thread;
-        $response = $this->get('forum/' . $thread->id);
+        $forum_id = $thread->forum->id;
+        $response = $this->get('/forum/' . $forum_id . '/threads/' . $thread->id);
 
-        $response->assertViewIs('forum.show')
+        $response->assertViewIs('forum.thread.show')
                         ->assertViewHas('thread');
     }
 }
