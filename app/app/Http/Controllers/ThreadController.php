@@ -24,9 +24,9 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Forum $forum, Thread $thread)
     {
-        return view('forum.thread.create', compact('thread'));
+        return view('forum.thread.create', compact('forum', 'thread'));
     }
 
     /**
@@ -35,20 +35,17 @@ class ThreadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Forum $forum)
     {
-        $title = $request->input('title');
-        $body = $request->input('body');
-        $user = $request->user()->id;
+        $_ENV['forumid'] = $forum;
+       $thread = $forum->addThread( array(
+            'title' => $request->input('title'),
+            'forum_id' => $forum,
+            'body'  => $request->input('body'),
+            'user_id' => $request->user()->id,
+        ));
 
-        $thread = new Thread();
-        $thread->title = $title;
-        $thread->body = $body;
-        $thread->user_id = $user;
-
-        $thread->save();
-
-        return redirect()->route('forum.thread.show', compact('thread'));
+        return redirect()->route('threads.show', compact('forum', 'thread'));
     }
 
     /**

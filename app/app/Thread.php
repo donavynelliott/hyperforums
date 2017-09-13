@@ -9,7 +9,8 @@ class Thread extends Model
 	protected $fillable = [
 		'title',
 		'body',
-		'user_id'
+		'user_id',
+		'forum_id'
 	];
 
 	public function forum()

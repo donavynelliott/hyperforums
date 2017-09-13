@@ -34,3 +34,5 @@ Route::get('/forum/{forum}/threads/{thread}', 'ThreadController@show')->name('th
 //reply doesn't need whole controller
 Route::post('/forum/{forum}/threads/{thread}/replies', 'ReplyController@store')
 		->middleware('auth');
+Route::post('/forum/{forum}/threads/store', 'ThreadController@store')
+		->middleware('auth');

@@ -45,9 +45,10 @@ class ThreadTest extends DuskTestCase
     public function testAuthenticatedUsersCanSubmitNewThread()
     {
         $user = $this->user;
-        $this->browse(function ($browser) use ($user) {
+        $thread = $this->thread;
+        $this->browse(function ($browser) use ($user, $thread) {
             $browser->loginAs($user)
-                            ->visit('/threads/create')
+                            ->visit('/forum/' . $thread->forum->id . '/threads/create')
                             ->type('title', 'This is a title')
                             ->type('body', 'This is a body')
                             ->click('[type="submit"')

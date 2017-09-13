@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
-                {!! Form::open(['url' => 'threads']) !!}
+                {!! Form::open(['url' => '/forum/' . $forum->id . '/threads/store']) !!}
                 
                 <div class="card-body">
                     <div class="form-group">
