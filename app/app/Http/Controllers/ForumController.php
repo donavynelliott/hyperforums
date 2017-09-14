@@ -18,6 +18,7 @@ class ForumController extends Controller
         $forums = Forum::orderBy('priority', 'asc')
                                     ->get();
         $threads = Thread::latest()->get();
+        
         return view('forum.index', compact('forums', 'threads'));
     }
 

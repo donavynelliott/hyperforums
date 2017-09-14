@@ -3,6 +3,9 @@
 @section('content')
 
 <div class="container">
+
+    {{ Breadcrumbs::render('forum.show', $forum) }}
+    
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
@@ -17,6 +20,9 @@
                 </div>
 
                 <div class="card-body">
+
+
+
                     <div class="card-text">
                         <table id="threads" class="table">
                             <thead>

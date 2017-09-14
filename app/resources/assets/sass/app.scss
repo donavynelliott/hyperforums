@@ -12,23 +12,57 @@
 // Variables
 @import "variables";
 
-.card {
-	margin-top: 1rem;
-}
+/***********************************/
+/*
+* 1. Default Elements
+* 2. Header Elements
+* 3. App Content
+* 4. Sidebar
+* 5. Footer
+* 6. Special Classes
+*/
+/***********************************/
 
-[type="submit"] {
-	@extend button;
-}
+/* ----- 1. Default Elements ----- */
 
-button {
-	cursor: pointer;
-}
+	/* Cards */
 
-// Special Classes
-.inline-block {
-	display: inline-block;
-}
+	.card {
+		margin-top: 1rem;
+	}
 
-.float-right {
-	float: right;
-}
+	/* Buttons */
+
+	button {
+		cursor: pointer;
+	}
+
+	[type="submit"] {
+		@extend button;
+	}
+
+/* ----- 2. Header Elements ----- */
+
+	/* Breadcrumbs */
+
+	.breadcrumb {
+		background-color: transparent;
+		font-size: 12px;
+		margin: 0;
+	}	
+
+/* ----- 3. App Content ----- */
+
+/* ----- 4. Sidebar ----- */
+
+/* ----- 5. Footer ----- */
+
+/* ----- 6. Special Classes ----- */
+
+	.inline-block {
+		display: inline-block;
+	}
+
+	.float-right {
+		float: right;
+	}

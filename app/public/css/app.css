@@ -9548,14 +9548,51 @@ a.text-dark:hover {
 
 /**/
 
+/***********************************/
+
+/*
+* 1. Default Elements
+* 2. Header Elements
+* 3. App Content
+* 4. Sidebar
+* 5. Footer
+* 6. Special Classes
+*/
+
+/***********************************/
+
+/* ----- 1. Default Elements ----- */
+
+/* Cards */
+
 .card {
   margin-top: 1rem;
 }
+
+/* Buttons */
 
 button,
 [type="submit"] {
   cursor: pointer;
 }
+
+/* ----- 2. Header Elements ----- */
+
+/* Breadcrumbs */
+
+.breadcrumb {
+  background-color: transparent;
+  font-size: 12px;
+  margin: 0;
+}
+
+/* ----- 3. App Content ----- */
+
+/* ----- 4. Sidebar ----- */
+
+/* ----- 5. Footer ----- */
+
+/* ----- 6. Special Classes ----- */
 
 .inline-block {
   display: inline-block;

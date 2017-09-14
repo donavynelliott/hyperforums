@@ -2,10 +2,14 @@
 
 @section('content')
 <div class="container">
+
+    {{ Breadcrumbs::render('threads.show', $thread) }}
+    
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
                 <div class="card-body">
+
                     <h4 class="card-title">{{ $thread->title }}</h4>
 
                     <p class="card-text"> 

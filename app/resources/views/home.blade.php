@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
+
+    {{ Breadcrumbs::render('home') }}
+
     <div class="row">
         <div class="col-sm-12 col-md-8">
             <div class="card">
