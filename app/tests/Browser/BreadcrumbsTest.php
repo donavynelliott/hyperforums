@@ -17,6 +17,42 @@ class BreadcrumbsTest extends DuskTestCase
         $this->user = factory('App\User')->create();
     }
 
+    public function testForumBreadcrumbs()
+    {
+        $user = $this->user;
+        $forum = $this->forum;
+        $thread = $this->thread;
+        $this->browse(function (Browser $browser) use ($user, $forum, $thread) {
+            $browser->visit('/forum') // /forum
+                    ->assertSeeIn('.breadcrumb', 'Home')
+                    ->assertSeeIn('.breadcrumb', 'Forums')
+                    ->clickLink($forum->name) // /forum/{forum_id}
+                    ->assertSeeIn('.breadcrumb', 'Forums')
+                    ->assertSeeIn('.breadcrumb', $forum->name)
+                    ->clickLink($thread->title)// /forum/{forum_id}/threads/{thread_id}
+                    ->assertSeeIn('.breadcrumb', 'Home')
+                    ->assertSeeIn('.breadcrumb', 'Forums')
+                    ->assertSeeIn('.breadcrumb', $forum->name)
+                    ->assertSeeIn('.breadcrumb', $thread->title);
+
+            $browser->visit('/forum/' . $forum->id . '/threads/create')
+                    ->assertSeeIn('.breadcrumb', 'Home')
+                    ->assertSeeIn('.breadcrumb', 'Forums')
+                    ->assertSeeIn('.breadcrumb', $forum->name)
+                    ->assertSeeIn('.breadcrumb', 'Create Thread');
+
+            $browser->visit('/password/reset')
+                    ->assertSeeIn('.breadcrumb', 'Home')
+                    ->assertSeeIn('.breadcrumb', 'Password Reset')
+                    ->assertViewIs('home');
+
+
+            $browser->visit('/register')
+                    ->assertSeeIn('.breadcrumb', 'Home')
+                    ->assertSeeIn('.breadcrumb', 'Register');
+        });
+    }
+
     public function testHomeBreadcrumbs()
     {
         $user = $this->user;
@@ -26,29 +62,5 @@ class BreadcrumbsTest extends DuskTestCase
                     ->assertSeeIn('.breadcrumb', 'Home');
         });
 
-    }
-
-    public function testForumBreadcrumbs()
-    {
-        $user = $this->user;
-        $forum = $this->forum;
-        $thread = $this->thread;
-        $this->browse(function (Browser $browser) use ($user, $forum, $thread) {
-            $browser->visit('/forum') // /forum
-                    ->assertSeeIn('.breadcrumb', 'Forums')
-                    ->clickLink($forum->name) // /forum/{forum_id}
-                    ->assertSeeIn('.breadcrumb', 'Forums')
-                    ->assertSeeIn('.breadcrumb', $forum->name)
-                    ->clickLink($thread->title)// /forum/{forum_id}/threads/{thread_id}
-                    ->assertSeeIn('.breadcrumb', 'Forums')
-                    ->assertSeeIn('.breadcrumb', $forum->name)
-                    ->assertSeeIn('.breadcrumb', $thread->title);
-
-            $browser->visit('/forum/' . $forum->id . '/threads/create')
-                    ->assertSeeIn('.breadcrumb', 'Forums')
-                    ->assertSeeIn('.breadcrumb', $forum->name)
-                    ->assertSeeIn('.breadcrumb', 'Create Thread');
-
-        });
     }
 }

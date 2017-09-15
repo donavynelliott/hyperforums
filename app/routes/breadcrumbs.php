@@ -6,9 +6,12 @@ Breadcrumbs::register('home', function ($breadcrumbs) {
 });
 
 
+/* Forums */
+
 // /Forum
 // Forums
 Breadcrumbs::register('forum', function ($breadcrumbs) {
+	$breadcrumbs->parent('home');
 	$breadcrumbs->push('Forums', route('forum'));
 });
 
@@ -32,4 +35,19 @@ Breadcrumbs::register('threads.create', function ($breadcrumbs, $forum) {
 Breadcrumbs::register('threads.show', function ($breadcrumbs, $thread) {
 	$breadcrumbs->parent('forum.show', $thread->forum);
 	$breadcrumbs->push($thread->title, route('threads.show', [$thread->forum, $thread]));
+});
+
+
+
+/* Auth Pages */
+// /password/reset
+Breadcrumbs::register('password.reset', function ($breadcrumbs) {
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push('Password Reset', route('password.request'));
+});
+
+// /register
+Breadcrumbs::register('register', function ($breadcrumbs) {
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push('Register', route('register'));
 });
