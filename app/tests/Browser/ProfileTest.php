@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ProfileTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
     /**
      * A Dusk test example.
      *

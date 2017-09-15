@@ -8,6 +8,9 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ThreadTest extends DuskTestCase
 {
+
+    use DatabaseMigrations;
+
     public function setUp()
     {
         parent::setUp();

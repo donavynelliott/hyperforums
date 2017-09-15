@@ -4,12 +4,12 @@ namespace Tests\Unit;
 
 use App\Reply;
 use App\Thread;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class ThreadRepliesTest extends TestCase
 {
-	use RefreshDatabase;
+	use DatabaseMigrations;
 
 	public function setUp()
 	{	

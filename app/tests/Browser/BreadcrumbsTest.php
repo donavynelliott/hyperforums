@@ -2,12 +2,15 @@
 
 namespace Tests\Browser;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
+use Illuminate\Foundation\Facades\Artisan;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class BreadcrumbsTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+    
     public function setUp()
     {
         parent::setUp();
@@ -17,12 +20,23 @@ class BreadcrumbsTest extends DuskTestCase
         $this->user = factory('App\User')->create();
     }
 
+    public function testHomeBreadcrumbs()
+    {
+        $user = $this->user;
+        $this->browse(function (Browser $browser, Browser $authBrowser) use ($user) {
+            $authBrowser->loginAs($user)
+                    ->visit('/home')
+                    ->assertSeeIn('.breadcrumb', 'Home');
+        });
+
+    }
+
     public function testForumBreadcrumbs()
     {
         $user = $this->user;
         $forum = $this->forum;
         $thread = $this->thread;
-        $this->browse(function (Browser $browser) use ($user, $forum, $thread) {
+        $this->browse(function (Browser $browser, Browser $authBrowser) use ($user, $forum, $thread) {
             $browser->visit('/forum') // /forum
                     ->assertSeeIn('.breadcrumb', 'Home')
                     ->assertSeeIn('.breadcrumb', 'Forums')
@@ -35,16 +49,18 @@ class BreadcrumbsTest extends DuskTestCase
                     ->assertSeeIn('.breadcrumb', $forum->name)
                     ->assertSeeIn('.breadcrumb', $thread->title);
 
-            $browser->visit('/forum/' . $forum->id . '/threads/create')
+            $authBrowser->loginAs($user)
+                    ->visit('/forum/' . $forum->id . '/threads/create')
+                    ->assertPathBeginsWith('/forum')
                     ->assertSeeIn('.breadcrumb', 'Home')
                     ->assertSeeIn('.breadcrumb', 'Forums')
                     ->assertSeeIn('.breadcrumb', $forum->name)
                     ->assertSeeIn('.breadcrumb', 'Create Thread');
 
             $browser->visit('/password/reset')
+                    ->assertPathBeginsWith('/password')
                     ->assertSeeIn('.breadcrumb', 'Home')
-                    ->assertSeeIn('.breadcrumb', 'Password Reset')
-                    ->assertViewIs('home');
+                    ->assertSeeIn('.breadcrumb', 'Password Reset');
 
 
             $browser->visit('/register')
@@ -53,14 +69,8 @@ class BreadcrumbsTest extends DuskTestCase
         });
     }
 
-    public function testHomeBreadcrumbs()
+    public function tearDown()
     {
-        $user = $this->user;
-        $this->browse(function (Browser $browser) use ($user) {
-            $browser->loginAs($user)
-                    ->visit('/home')
-                    ->assertSeeIn('.breadcrumb', 'Home');
-        });
-
+        parent::tearDown();
     }
 }

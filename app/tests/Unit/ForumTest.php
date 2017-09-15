@@ -5,12 +5,14 @@ namespace Tests\Unit;
 use App\Reply;
 use App\Thread;
 use App\User;
-
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class ForumTest extends TestCase
 {
+	use DatabaseMigrations;
+	
     /**
      * A basic test example.
      *
