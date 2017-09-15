@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ReplyTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+    
     public function setUp()
     {
         parent::setUp();

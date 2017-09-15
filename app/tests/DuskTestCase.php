@@ -49,6 +49,6 @@ abstract class DuskTestCase extends BaseTestCase
     public function tearDown()
     {
         parent::tearDown();
-        // exec('php artisan migrate:refresh --seed');
+        exec('php artisan migrate:refresh --seed');
     }
 }
