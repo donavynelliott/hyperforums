@@ -51,3 +51,10 @@ Breadcrumbs::register('register', function ($breadcrumbs) {
 	$breadcrumbs->parent('home');
 	$breadcrumbs->push('Register', route('register'));
 });
+
+
+// /login
+Breadcrumbs::register('login', function ($breadcrumbs) {
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push('Login', route('login'));
+});

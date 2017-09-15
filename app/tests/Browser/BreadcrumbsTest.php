@@ -66,6 +66,10 @@ class BreadcrumbsTest extends DuskTestCase
             $browser->visit('/register')
                     ->assertSeeIn('.breadcrumb', 'Home')
                     ->assertSeeIn('.breadcrumb', 'Register');
+
+            $browser->visit('/login')
+                    ->assertSeeIn('.breadcrumb', 'Home')
+                    ->assertSeeIn('.breadcrumb', 'Login');
         });
     }
 
