@@ -10,20 +10,32 @@ class ProfileTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * A Dusk test example.
-     *
-     * @return void
-     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory('App\User')->create();
+    }
+
     public function testUserProfiles()
     {
-        $user = factory('App\User')->create();
+        $user = $this->user;
         $user_id = $user->id;
 
         $this->browse(function (Browser $browser) use ($user, $user_id) {
+            $browser->visit("/profile/${user_id}")
+                          ->assertSee($user->name);
+        });
+    }
+
+    public function testUserCanViewProfile()
+    {
+        $user = $this->user;
+        $user_id = $user->id;
+        
+        $this->browse(function (Browser $browser) use ($user, $user_id) {
             $browser->loginAs($user)
-                    ->visit("/profile/${user_id}")
-                    ->assertSee($user->name);
+                          ->visit("/profile")
+                          ->assertSee($user->name);
         });
     }
 }

@@ -18,7 +18,7 @@
 
                     <p class="card-text">
                         Posted: {{ $thread->created_at->diffForHumans() }} by  
-                        <a href="{{ route('profile', $thread->user->id) }}">
+                        <a href="{{ route('profile.show', $thread->user->id) }}">
                             {{ $thread->user->name }}
                         </a>
                     </p>
@@ -26,7 +26,7 @@
             </div>
 
             <!-- Show Replies -->
-            @foreach ($thread->replies as $reply)
+            @foreach ($replies as $reply)
                  @include('forum.thread.reply')
             @endforeach
 

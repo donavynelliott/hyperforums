@@ -56,6 +56,7 @@
                                 </a>
 
                                 <ul class="dropdown-menu bg-dark" role="menu">
+                                    <li><a class="nav-link" href="{{ route('profile') }}">Your Profile</a></li>
                                     <li>
                                         <a class="nav-link" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

@@ -19,7 +19,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/profile/{id?}', 'UserController@show')->name('profile');
+
+Route::get('/profile', 'UserController@index')->middleware('auth')->name('profile');
+Route::get('/profile/{id}', 'UserController@show')->name('profile.show');
 
 //Forums
 Route::get('/forum', 'ForumController@index')->name('forum');
@@ -34,6 +36,7 @@ Route::get('/forum/{forum}/threads/{thread}', 'ThreadController@show')->name('th
 
 //reply doesn't need whole controller
 Route::post('/forum/{forum}/threads/{thread}/replies', 'ReplyController@store')
-		->middleware('auth');
+		->middleware('auth')
+		->name('replies.store');
 Route::post('/forum/{forum}/threads/store', 'ThreadController@store')
 		->middleware('auth');

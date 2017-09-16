@@ -58,3 +58,9 @@ Breadcrumbs::register('login', function ($breadcrumbs) {
 	$breadcrumbs->parent('home');
 	$breadcrumbs->push('Login', route('login'));
 });
+
+// /profile
+Breadcrumbs::register('profile', function($breadcrumbs, $user) {
+	$breadcrumbs->parent('home');
+	$breadcrumbs->push($user->name, route('profile', $user));
+});

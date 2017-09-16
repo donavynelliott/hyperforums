@@ -54,7 +54,8 @@ class ThreadController extends Controller
      */
     public function show(Forum $forum, Thread $thread)
     {
-        return view('forum.thread.show', compact('thread'));
+        $replies = $thread->replies()->orderBy('created_at', 'asc')->get();;
+        return view('forum.thread.show', compact('thread', 'replies'));
     }
 
     /**
