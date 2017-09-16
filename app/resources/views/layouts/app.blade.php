@@ -47,6 +47,7 @@
                             <li class="nav-item"><a class="nav-link" href="{{ route('forum') }}">Forum</a></li>
                         @else
 
+                            <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('forum') }}">Forum</a></li>
                             <li class="nav-item dropdown">
 

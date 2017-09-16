@@ -17,15 +17,6 @@ class ThreadController extends TestCase
         $this->thread = factory('App\Thread')->create();
     }
 
-    public function testThreadControllerIndex()
-    {
-        $response = $this->actingAs($this->user)
-                                      ->get('forum');
-
-        $response->assertViewHas('threads')
-                        ->assertViewIs('forum.index');
-    }
-
     public function testThreadControllerCreate()
     {
         $forum_id = $this->thread->forum->id;

@@ -5,7 +5,7 @@ use Faker\Generator as Faker;
 $factory->define(App\Forum::class, function (Faker $faker) {
 	return [
 		'name' => $faker->company,
-		'priority' => $faker->numberBetween(1, 20)
+		'priority' => $faker->numberBetween(1, 100)
 	];
 });
 

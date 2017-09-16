@@ -34,7 +34,7 @@
                             </thead>
                             <tbody>
 
-                                @foreach ($forum->threads as $thread)
+                                @foreach ($threads as $thread)
                                     <tr>
                                         
                                         <td>

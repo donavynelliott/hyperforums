@@ -28,7 +28,7 @@ class ForumControllerTest extends TestCase
 		$forum = $this->forum;
 		$response = $this->get('forum/' . $forum->id);
 
-		$response->assertViewHas(['forum'])
-					->assertViewIs('forum.thread.index');
+		$response->assertViewHas(['forum', 'threads'])
+				->assertViewIs('forum.thread.index');
 	}
 }

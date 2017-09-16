@@ -9,10 +9,16 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
     use DatabaseMigrations;
+
+    public function setUp()
+    {
+    	parent::setUp();
+    	$this->user = factory('App\User')->create();
+    }
     
     public function testUserDashboard()
     {
-    	$user = factory(User::class)->make();
+    	$user = $this->user;
 
     	$this->actingAs($user)
     		->get('home')
