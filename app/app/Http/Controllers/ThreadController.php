@@ -65,7 +65,7 @@ class ThreadController extends Controller
      */
     public function edit(Thread $thread)
     {
-        //
+        return view('forum.thread.edit', compact('thread'));
     }
 
     /**
@@ -77,7 +77,17 @@ class ThreadController extends Controller
      */
     public function update(Request $request, Thread $thread)
     {
-        //
+        if ($request->user()->id != $thread->user->id) {
+            abort(500);
+        }
+
+        $thread->title = $request->input('title');
+        $thread->body = $request->input('body');
+        $thread->save();
+        $forum = $thread->forum;
+
+        return redirect()->route('threads.show', compact('forum', 'thread'));
+
     }
 
     /**

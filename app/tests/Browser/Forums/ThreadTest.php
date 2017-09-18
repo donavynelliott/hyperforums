@@ -70,10 +70,22 @@ class ThreadTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($thread, $user, $forum_id) {
             $browser->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
-                ->assertDontSeeIn('[name="thread_' . $thread->id . '_edit"]', 'Edit')
+                ->assertMissing('[name="thread_' . $thread->id . '_edit"]')
                 ->loginAs($user)
                 ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
-                ->assertSeeIn('[name="thread_' . $thread->id . '_edit"]', 'Edit');
+                ->assertSeeIn('[name="thread_' . $thread->id . '_edit"]', 'Edit Thread');
+        });
+    }
+
+    public function testAuthUserSeeAuthorWarningWhenAttemptingToEditOthersThread()
+    {
+        $thread = $this->thread;
+        $randomUser = factory('App\User')->create();
+
+        $this->browse(function ($browser) use ($thread, $randomUser) {
+            $browser->loginAs($randomUser)
+                ->visit('/threads/' . $thread->id . '/edit')
+                ->assertSee('You must be the author of this thread to edit.');
         });
     }
 

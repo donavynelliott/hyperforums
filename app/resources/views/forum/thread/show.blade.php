@@ -4,7 +4,7 @@
 <div class="container">
 
     {{ Breadcrumbs::render('threads.show', $thread) }}
-    
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
@@ -12,16 +12,25 @@
 
                     <h4 class="card-title">{{ $thread->title }}</h4>
 
-                    <p class="card-text"> 
+                    <p class="card-text">
                         {{ $thread->body }}
                     </p>
 
                     <p class="card-text">
-                        Posted: {{ $thread->created_at->diffForHumans() }} by  
+                        Posted: {{ $thread->created_at->diffForHumans() }} by
                         <a href="{{ route('profile.show', $thread->user->id) }}">
                             {{ $thread->user->name }}
                         </a>
                     </p>
+
+                    @if (@Auth::user()->id == $thread->user->id)
+                        <p class="card-text">
+                            <a href="{{ route('threads.edit', $thread) }}" name="thread_{{ $thread->id}}_edit">
+                                <button class="btn btn-default">Edit Thread</button>
+                            </a>
+                        </p>
+                    @endif
+
                 </div>
             </div>
 

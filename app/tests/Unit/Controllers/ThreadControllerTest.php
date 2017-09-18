@@ -28,22 +28,23 @@ class ThreadController extends TestCase
         $response = $this->actingAs($this->user)
             ->get('/forum/' . $forum_id . '/threads/create');
 
-        $response->assertViewIs('forum.thread.create')
-            ->assertViewHas('thread');
+        $response->assertViewIs('forum.thread.create');
     }
 
     public function testThreadControllerEdit()
     {
         $thread = $this->thread;
+        $author = $thread->user;
 
         $response = $this->get('/threads/' . $thread->id . '/edit');
 
         $response->assertRedirect('/login');
 
-        $response = $this->actingAs($this->user)
+        $response = $this->actingAs($author)
             ->get('/threads/' . $thread->id . '/edit');
 
-        $response->assertViewIs('forum.thread.edit');
+        $response->assertViewIs('forum.thread.edit')
+            ->assertViewHas('thread');
     }
 
     public function testThreadControllerStore()
@@ -80,19 +81,27 @@ class ThreadController extends TestCase
     {
         $thread = $this->thread;
         $forum_id = $thread->forum->id;
-        $user = $thread->user;
+        $author = $thread->user;
+        $randomUser = factory('App\User')->create();
+
         $threadUpdate = array(
             'id' => $thread->id,
             'title' => 'testThreadControllerUpdateTitle',
             'body' => 'testThreadControllerUpdateBody',
         );
 
-        $response = $this->post('/threads/store', $threadUpdate);
+        $response = $this->put('/threads/' . $thread->id, $threadUpdate);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/login');
+
+        $response = $this->actingAs($randomUser)
+            ->put('/threads/' . $thread->id, $threadUpdate);
 
         $response->assertStatus(500);
 
-        $response = $this->actingAs($user)
-            ->post('/threads/store', $threadUpdate);
+        $response = $this->actingAs($author)
+            ->put('/threads/' . $thread->id, $threadUpdate);
 
         $response->assertStatus(302)
             ->assertRedirect('/forum/' . $forum_id . '/threads/' . $thread->id);
