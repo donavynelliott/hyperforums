@@ -2,14 +2,14 @@
 
 namespace Tests\Browser;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class ForumTest extends DuskTestCase
 {
     use DatabaseMigrations;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -21,7 +21,7 @@ class ForumTest extends DuskTestCase
         $forum = $this->forum;
         $this->browse(function ($browser) use ($forum) {
             $browser->visit('/forum')
-                            ->assertSee($forum->name);
+                ->assertSee($forum->name);
         });
     }
 
@@ -32,7 +32,7 @@ class ForumTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($forum, $threadCount) {
             $browser->visit('/forum')
-                    ->assertSeeIn('[name="forum_' . $forum->id . '_thread_count"]', $threadCount);
+                ->assertSeeIn('[name="forum_' . $forum->id . '_thread_count"]', $threadCount);
         });
     }
 
@@ -43,7 +43,7 @@ class ForumTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($forum, $replyCount) {
             $browser->visit('/forum')
-                          ->assertSeeIn('[name="forum_' . $forum->id . '_reply_count"]', $replyCount);
+                ->assertSeeIn('[name="forum_' . $forum->id . '_reply_count"]', $replyCount);
         });
     }
 }

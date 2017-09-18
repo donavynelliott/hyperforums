@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Forum;
-use App\Thread;
 use Illuminate\Http\Request;
 
 class ForumController extends Controller
@@ -16,7 +15,7 @@ class ForumController extends Controller
     public function index()
     {
         $forums = Forum::orderBy('priority', 'desc')
-                                    ->get();        
+            ->get();
         return view('forum.index', compact('forums'));
     }
 

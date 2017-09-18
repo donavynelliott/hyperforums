@@ -2,9 +2,9 @@
 
 namespace Tests\Browser;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class ThreadTest extends DuskTestCase
 {
@@ -14,7 +14,7 @@ class ThreadTest extends DuskTestCase
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->thread = factory('App\Thread')->create();
         $this->reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
         $this->user = factory('App\User')->create();
@@ -26,22 +26,22 @@ class ThreadTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($thread) {
             $browser->visit('/forum/' . $thread->forum->id)
-                            ->assertSee($thread->title);
+                ->assertSee($thread->title);
         });
     }
 
-    public function testUserCanSeeSingleThread() 
+    public function testUserCanSeeSingleThread()
     {
         $thread = $this->thread;
 
         $this->browse(function ($browser) use ($thread) {
             $browser->visit('/forum/' . $thread->forum->id)
-                            ->clickLink($thread->title) //click on link
-                            ->assertSee($thread->title) //title is visible
-                            ->assertSee($thread->body) //body is visible
-                            ->assertSee($thread->user->name) //author is visible
-                            ->clickLink($thread->user->name) //click on author profile
-                            ->assertSee($thread->user->name); //profile is authors 
+                ->clickLink($thread->title) //click on link
+                ->assertSee($thread->title) //title is visible
+                ->assertSee($thread->body) //body is visible
+                ->assertSee($thread->user->name) //author is visible
+                ->clickLink($thread->user->name) //click on author profile
+                ->assertSee($thread->user->name); //profile is authors
         });
     }
 
@@ -51,14 +51,14 @@ class ThreadTest extends DuskTestCase
         $thread = $this->thread;
         $this->browse(function ($browser) use ($user, $thread) {
             $browser->loginAs($user)
-                            ->visit('/forum/' . $thread->forum->id . '/threads/create')
-                            ->type('title', 'This is a title')
-                            ->type('body', 'This is a body')
-                            ->click('[type="submit"')
-                            ->assertPathBeginsWith('/forum/')
-                            ->assertSee('This is a title')
-                            ->assertSee('This is a body');
-        }) ;  
+                ->visit('/forum/' . $thread->forum->id . '/threads/create')
+                ->type('title', 'This is a title')
+                ->type('body', 'This is a body')
+                ->click('[type="submit"')
+                ->assertPathBeginsWith('/forum/')
+                ->assertSee('This is a title')
+                ->assertSee('This is a body');
+        });
     }
 
     public function testThreadReplyCountIsVisible()
@@ -69,7 +69,7 @@ class ThreadTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($thread, $replyCount, $forum_id) {
             $browser->visit('/forum/' . $forum_id)
-                          ->assertSeeIn('[name="thread_' . $thread->id . '_reply_count"]', $replyCount);
+                ->assertSeeIn('[name="thread_' . $thread->id . '_reply_count"]', $replyCount);
         });
     }
 
@@ -81,7 +81,7 @@ class ThreadTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($thread, $createdAt, $forum_id) {
             $browser->visit('/forum/' . $forum_id)
-                          ->assertSeeIn('[name="thread_' . $thread->id . '_created_at"]', $createdAt);
+                ->assertSeeIn('[name="thread_' . $thread->id . '_created_at"]', $createdAt);
         });
     }
 }

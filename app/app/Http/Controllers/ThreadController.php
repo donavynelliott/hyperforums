@@ -14,7 +14,7 @@ class ThreadController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {//ForumController@show
+    { //ForumController@show
     }
 
     /**
@@ -35,11 +35,10 @@ class ThreadController extends Controller
      */
     public function store(Request $request, Forum $forum)
     {
-        $_ENV['forumid'] = $forum;
-       $thread = $forum->addThread( array(
+        $thread = $forum->addThread(array(
             'title' => $request->input('title'),
             'forum_id' => $forum,
-            'body'  => $request->input('body'),
+            'body' => $request->input('body'),
             'user_id' => $request->user()->id,
         ));
 
@@ -54,7 +53,7 @@ class ThreadController extends Controller
      */
     public function show(Forum $forum, Thread $thread)
     {
-        $replies = $thread->replies()->orderBy('created_at', 'asc')->get();;
+        $replies = $thread->replies()->orderBy('created_at', 'asc')->get();
         return view('forum.thread.show', compact('thread', 'replies'));
     }
 

@@ -2,17 +2,13 @@
 
 namespace Tests\Unit;
 
-use App\Reply;
-use App\Thread;
-use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-
 class ForumTest extends TestCase
 {
-	use DatabaseMigrations;
-	
+    use DatabaseMigrations;
+
     /**
      * A basic test example.
      *
@@ -22,5 +18,5 @@ class ForumTest extends TestCase
     {
         $this->get('/forum')->assertStatus(200);
     }
-    
+
 }

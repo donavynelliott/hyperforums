@@ -12,16 +12,16 @@ class UserTest extends TestCase
 
     public function setUp()
     {
-    	parent::setUp();
-    	$this->user = factory('App\User')->create();
+        parent::setUp();
+        $this->user = factory('App\User')->create();
     }
-    
+
     public function testUserDashboard()
     {
-    	$user = $this->user;
+        $user = $this->user;
 
-    	$this->actingAs($user)
-    		->get('home')
-    		->assertViewIs('home');
+        $this->actingAs($user)
+            ->get('home')
+            ->assertViewIs('home');
     }
 }

@@ -37,11 +37,11 @@ class ReplyController extends Controller
      */
     public function store(Request $request, Forum $forum, Thread $thread)
     {
-        $thread->addReply( array(
+        $thread->addReply(array(
             'body' => $request->input('body'),
             'user_id' => $request->user()->id,
             'forum_id' => $thread->forum->id,
-            ));
+        ));
 
         return back();
     }

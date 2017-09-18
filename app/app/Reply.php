@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Reply extends Model
 {
     protected $fillable = [
-    	'user_id',
-    	'thread_id',
-            'forum_id',
-    	'body'
+        'user_id',
+        'thread_id',
+        'forum_id',
+        'body',
     ];
     public function thread()
     {
-    	return $this->belongsTo('App\Thread');
+        return $this->belongsTo('App\Thread');
     }
 
     public function forum()
@@ -24,6 +24,6 @@ class Reply extends Model
 
     public function user()
     {
-    	return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User');
     }
 }

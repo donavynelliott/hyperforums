@@ -13,8 +13,8 @@ class ForumsTableSeeder extends Seeder
     public function run()
     {
         DB::table('forums')->insert([
-        	'name'	=> 'Announcements',
-        	'priority' => 1000,
+            'name' => 'Announcements',
+            'priority' => 1000,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
