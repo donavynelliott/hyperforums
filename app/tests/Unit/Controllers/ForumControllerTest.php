@@ -7,28 +7,28 @@ use Tests\TestCase;
 
 class ForumControllerTest extends TestCase
 {
-	use DatabaseMigrations;
+    use DatabaseMigrations;
 
-	public function setUp()
-	{
-		parent::setUp();
-		$this->forum = factory('App\Forum')->create();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->forum = factory('App\Forum')->create();
+    }
 
-	public function testForumControllerIndex()
-	{
-	        $response = $this->get('/forum');
+    public function testForumControllerIndex()
+    {
+        $response = $this->get('/forum');
 
-	        $response->assertViewHas('forums')
-	                        ->assertViewIs('forum.index');
-	}
+        $response->assertViewHas('forums')
+            ->assertViewIs('forum.index');
+    }
 
-	public function testForumControllerShow()
-	{
-		$forum = $this->forum;
-		$response = $this->get('forum/' . $forum->id);
+    public function testForumControllerShow()
+    {
+        $forum = $this->forum;
+        $response = $this->get('forum/' . $forum->id);
 
-		$response->assertViewHas(['forum', 'threads'])
-				->assertViewIs('forum.thread.index');
-	}
+        $response->assertViewHas(['forum', 'threads'])
+            ->assertViewIs('forum.thread.index');
+    }
 }

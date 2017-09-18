@@ -45,19 +45,55 @@ class ThreadTest extends DuskTestCase
         });
     }
 
-    public function testAuthenticatedUsersCanSubmitNewThread()
+    public function testAuthUsersCanSubmitNewThread()
     {
         $user = $this->user;
-        $thread = $this->thread;
-        $this->browse(function ($browser) use ($user, $thread) {
+        $forum_id = $this->thread->forum->id;
+
+        $this->browse(function ($browser) use ($user, $forum_id) {
             $browser->loginAs($user)
-                ->visit('/forum/' . $thread->forum->id . '/threads/create')
+                ->visit('/forum/' . $forum_id . '/threads/create')
                 ->type('title', 'This is a title')
                 ->type('body', 'This is a body')
-                ->click('[type="submit"')
+                ->click('[type="submit"]')
                 ->assertPathBeginsWith('/forum/')
                 ->assertSee('This is a title')
                 ->assertSee('This is a body');
+        });
+    }
+
+    public function testOnlyThreadAuthorCanSeeEditButton()
+    {
+        $thread = $this->thread;
+        $user = $thread->user;
+        $forum_id = $thread->forum->id;
+
+        $this->browse(function ($browser) use ($thread, $user, $forum_id) {
+            $browser->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->assertDontSeeIn('[name="thread_' . $thread->id . '_edit"]', 'Edit')
+                ->loginAs($user)
+                ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->assertSeeIn('[name="thread_' . $thread->id . '_edit"]', 'Edit');
+        });
+    }
+
+    public function testThreadAuthorCanEditThread()
+    {
+        $thread = $this->thread;
+        $user = $thread->user;
+        $forum_id = $thread->forum->id;
+
+        $this->browse(function ($browser) use ($thread, $user, $forum_id) {
+            $browser->loginAs($user)
+                ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->clickLink('Edit Thread')
+                ->assertPathBeginsWith('/threads/')
+                ->type('title', 'testThreadAuthorCanEditThreadtitle')
+                ->type('body', 'testThreadAuthorCanEditThreadbody')
+                ->click('[type="submit"]')
+                ->assertSee('testThreadAuthorCanEditThreadtitle')
+                ->assertSee('testThreadAuthorCanEditThreadbody')
+                ->assertPathBeginsWith('/forum/');
         });
     }
 

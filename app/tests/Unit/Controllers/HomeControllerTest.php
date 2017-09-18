@@ -5,30 +5,29 @@ namespace Tests\Unit;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-
 class HomeController extends TestCase
 {
-	use DatabaseMigrations;
-	
-	public function setUp()
-	{
-		parent::setUp();
-		$this->user = factory('App\User')->create();
-	}
-	public function testHomeControllerIndexForAuthUser()
-	{	
-		$user = $this->user;
-		$response = $this->actingAs($user)
-					->get('/home');
+    use DatabaseMigrations;
 
-		$response->assertViewIs('home');
-	}
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory('App\User')->create();
+    }
+    public function testHomeControllerIndexForAuthUser()
+    {
+        $user = $this->user;
+        $response = $this->actingAs($user)
+            ->get('/home');
 
-	public function testHomeControllerIndexRedirectsToLoginForAnonUsers()
-	{
-		$response = $this->get('/home');
+        $response->assertViewIs('home');
+    }
 
-		$response->assertStatus(302)
-				->assertRedirect('/login');
-	}
+    public function testHomeControllerIndexRedirectsToLoginForAnonUsers()
+    {
+        $response = $this->get('/home');
+
+        $response->assertStatus(302)
+            ->assertRedirect('/login');
+    }
 }
