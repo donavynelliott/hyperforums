@@ -40,6 +40,7 @@ class ReplyController extends Controller
         $thread->addReply( array(
             'body' => $request->input('body'),
             'user_id' => $request->user()->id,
+            'forum_id' => $thread->forum->id,
             ));
 
         return back();

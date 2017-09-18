@@ -35,4 +35,15 @@ class ForumTest extends DuskTestCase
                     ->assertSeeIn('[name="forum_' . $forum->id . '_thread_count"]', $threadCount);
         });
     }
+
+    public function testThreadReplyCountIsVisible()
+    {
+        $forum = $this->forum;
+        $replyCount = $forum->replies->count();
+
+        $this->browse(function ($browser) use ($forum, $replyCount) {
+            $browser->visit('/forum')
+                          ->assertSeeIn('[name="forum_' . $forum->id . '_reply_count"]', $replyCount);
+        });
+    }
 }

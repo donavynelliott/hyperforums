@@ -10,6 +10,12 @@ class Forum extends Model
 	{
 		return $this->hasMany('App\Thread');
 	}
+
+	public function replies()
+	{
+		return $this->hasMany('App\Reply');
+	}
+
 	public function addThread(array $thread)
 	{
 		$thread = $this->threads()->create($thread);

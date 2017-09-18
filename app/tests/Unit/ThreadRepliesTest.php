@@ -23,6 +23,7 @@ class ThreadRepliesTest extends TestCase
 
 		$reply = array(
 			'user_id' => 1,
+			'forum_id' => $thread->forum->id,
 			'body' => 'testCreatingRepliesToAThread',
 		);
 

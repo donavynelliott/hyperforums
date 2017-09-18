@@ -43,9 +43,11 @@
                                             </a>
                                         </td>
                                         <td name="thread_{{ $thread->id }}_reply_count">
-                                            {{$thread->replies->count()}}
+                                            {{ $thread->replies->count() }}
                                         </td>
-                                        <td>today</td>
+                                        <td name="thread_{{ $thread->id }}_created_at">
+                                            {{ $thread->created_at->format('M j\\, Y g:ia') }}
+                                        </td>
                                     </tr>
                                 @endforeach
 

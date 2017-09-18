@@ -15,7 +15,7 @@ $factory->define(App\Thread::class, function (Faker $faker) {
 		'user_id' => function () {
 		    	return factory('App\User')->create()->id;
 		},
-		'forum_id'	=> function() {
+		'forum_id' => function() {
 			return factory('App\Forum')->create()->id;
 		},
 		'title' => $faker->sentence,
@@ -24,10 +24,10 @@ $factory->define(App\Thread::class, function (Faker $faker) {
 });
 
 $factory->define(App\Reply::class, function ($faker) {
+	$thread = factory('App\Thread')->create();
 	return [
-		'thread_id' => function () {
-			return factory('App\Thread')->create()->id;
-		},
+		'thread_id' => $thread->id,
+		'forum_id' => $thread->forum->id,
 	    	'user_id' => function () {
 	        		return factory('App\User')->create()->id;
 	    	},

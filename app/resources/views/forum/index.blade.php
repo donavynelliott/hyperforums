@@ -35,10 +35,12 @@
                                     </a>
                                 </td>
                                 <td name="forum_{{ $forum->id }}_thread_count">
-                                    {{$forum->threads->count()}}
+                                    {{ $forum->threads->count() }}
                                 </td>
-                                {{-- Do not write this functionality until I have a test for it --}}
-                                <td>0</td>
+                                    
+                                <td name="forum_{{ $forum->id }}_reply_count">
+                                    {{ $forum->replies->count() }}
+                                </td>
                             </tr>
                         @endforeach
 

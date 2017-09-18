@@ -60,4 +60,28 @@ class ThreadTest extends DuskTestCase
                             ->assertSee('This is a body');
         }) ;  
     }
+
+    public function testThreadReplyCountIsVisible()
+    {
+        $thread = $this->thread;
+        $replyCount = $thread->replies->count();
+        $forum_id = $thread->forum->id;
+
+        $this->browse(function ($browser) use ($thread, $replyCount, $forum_id) {
+            $browser->visit('/forum/' . $forum_id)
+                          ->assertSeeIn('[name="thread_' . $thread->id . '_reply_count"]', $replyCount);
+        });
+    }
+
+    public function testThreadCreatedTimeIsVisible()
+    {
+        $thread = $this->thread;
+        $createdAt = $thread->created_at->format('M j\\, Y g:ia');
+        $forum_id = $thread->forum->id;
+
+        $this->browse(function ($browser) use ($thread, $createdAt, $forum_id) {
+            $browser->visit('/forum/' . $forum_id)
+                          ->assertSeeIn('[name="thread_' . $thread->id . '_created_at"]', $createdAt);
+        });
+    }
 }
