@@ -32,10 +32,10 @@ class BreadcrumbsTest extends DuskTestCase
 
     public function testForumBreadcrumbs()
     {
-        $user = $this->user;
         $forum = $this->forum;
         $thread = $this->thread;
-        $this->browse(function (Browser $browser, Browser $authBrowser) use ($user, $forum, $thread) {
+        $author = $thread->user;
+        $this->browse(function (Browser $browser, Browser $authBrowser) use ($author, $forum, $thread) {
             $browser->visit('/forum') // /forum
                 ->assertSeeIn('.breadcrumb', 'Home')
                 ->assertSeeIn('.breadcrumb', 'Forums')
@@ -48,14 +48,27 @@ class BreadcrumbsTest extends DuskTestCase
                 ->assertSeeIn('.breadcrumb', $forum->name)
                 ->assertSeeIn('.breadcrumb', $thread->title);
 
-            $authBrowser->loginAs($user)
+            $authBrowser->loginAs($author)
                 ->visit('/forum/' . $forum->id . '/threads/create')
-                ->assertPathBeginsWith('/forum')
                 ->assertSeeIn('.breadcrumb', 'Home')
                 ->assertSeeIn('.breadcrumb', 'Forums')
                 ->assertSeeIn('.breadcrumb', $forum->name)
                 ->assertSeeIn('.breadcrumb', 'Create Thread');
 
+            $authBrowser->loginAs($author)
+                ->visit('/threads/' . $thread->id . '/edit')
+                ->assertSeeIn('.breadcrumb', 'Home')
+                ->assertSeeIn('.breadcrumb', 'Forums')
+                ->assertSeeIn('.breadcrumb', $forum->name)
+                ->assertSeeIn('.breadcrumb', $thread->title)
+                ->assertSeeIn('.breadcrumb', 'Edit Thread');
+        });
+    }
+
+    public function testUserPagesBreadcrumbs()
+    {
+        $user = $this->user;
+        $this->browse(function (Browser $browser, Browser $authBrowser) use ($user) {
             $browser->visit('/password/reset')
                 ->assertPathBeginsWith('/password')
                 ->assertSeeIn('.breadcrumb', 'Home')
