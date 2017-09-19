@@ -64,7 +64,7 @@ class ReplyController extends Controller
      */
     public function edit(Reply $reply)
     {
-        //
+        return view('forum.thread.reply.edit', compact('reply'));
     }
 
     /**
@@ -76,7 +76,16 @@ class ReplyController extends Controller
      */
     public function update(Request $request, Reply $reply)
     {
-        //
+        if ($request->user()->id != $reply->user->id) {
+            abort(500);
+        }
+
+        $reply->body = $request->input('body');
+        $reply->save();
+        $thread = $reply->thread;
+        $forum = $thread->forum;
+
+        return redirect()->route('threads.show', compact('forum', 'thread'));
     }
 
     /**

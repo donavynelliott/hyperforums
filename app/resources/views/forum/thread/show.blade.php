@@ -23,7 +23,7 @@
                         </a>
                     </p>
 
-                    @if (@Auth::user()->id == $thread->user->id)
+                    @if (!(Auth::guest()) && @Auth::user()->id == $thread->user->id)
                         <p class="card-text">
                             <a href="{{ route('threads.edit', $thread) }}" name="thread_{{ $thread->id}}_edit">
                                 <button class="btn btn-default">Edit Thread</button>
@@ -36,7 +36,7 @@
 
             <!-- Show Replies -->
             @foreach ($replies as $reply)
-                 @include('forum.thread.reply')
+                 @include('forum.thread.reply.show')
             @endforeach
 
             <!-- Show Reply Form -->

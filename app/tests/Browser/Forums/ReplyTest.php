@@ -57,4 +57,54 @@ class ReplyTest extends DuskTestCase
                 ->assertSee($user->name);
         });
     }
+
+    public function testOnlyReplyAuthorCanSeeEditButton()
+    {
+        $reply = $this->reply;
+        $author = $reply->user;
+        $thread = $reply->thread;
+        $forum_id = $thread->forum->id;
+        $randomUser = factory('App\User')->create();
+
+        $this->browse(function ($browser) use ($reply, $author, $thread, $forum_id, $randomUser) {
+            $browser->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->assertMissing('[name="reply_' . $reply->id . '_edit"]')
+                ->loginAs($randomUser)
+                ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->assertMissing('[name="reply_' . $reply->id . '_edit"]')
+                ->loginAs($author)
+                ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->assertSeeIn('[name="reply_' . $reply->id . '_edit"]', 'Edit Reply');
+        });
+    }
+
+    public function testReplyAuthorCanEditReply()
+    {
+        $reply = $this->reply;
+        $thread = $reply->thread;
+        $forum_id = $thread->forum->id;
+        $author = $reply->user;
+
+        $this->browse(function ($browser) use ($reply, $thread, $forum_id, $author) {
+            $browser->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->click('[name="reply_' . $reply->id . '_edit"]')
+                ->assertPathBeginsWith('/replies')
+                ->type('body', 'testReplyAuthorCanEditReplybody')
+                ->click('[type="submit"]')
+                ->assertSee('testReplyAuthorCanEditReplybody')
+                ->assertPathBeginsWith('/forum');
+        });
+    }
+
+    public function testAuthUserSeeAuthorWarningWhenAttemptingToEditOthersReply()
+    {
+        $reply = $this->reply;
+        $randomUser = factory('App\User')->create();
+
+        $this->browse(function ($browser) use ($reply, $randomUser) {
+            $browser->loginAs($randomUser)
+                ->visit('/replies/' . $reply->id . '/edit')
+                ->assertSee('You must be the author of this reply to edit.');
+        });
+    }
 }

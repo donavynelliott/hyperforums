@@ -39,9 +39,7 @@ class ThreadTest extends DuskTestCase
                 ->clickLink($thread->title) //click on link
                 ->assertSee($thread->title) //title is visible
                 ->assertSee($thread->body) //body is visible
-                ->assertSee($thread->user->name) //author is visible
-                ->clickLink($thread->user->name) //click on author profile
-                ->assertSee($thread->user->name); //profile is authors
+                ->assertSee($thread->user->name);
         });
     }
 
@@ -65,13 +63,17 @@ class ThreadTest extends DuskTestCase
     public function testOnlyThreadAuthorCanSeeEditButton()
     {
         $thread = $this->thread;
-        $user = $thread->user;
+        $author = $thread->user;
         $forum_id = $thread->forum->id;
+        $randomUser = factory('App\User')->create();
 
-        $this->browse(function ($browser) use ($thread, $user, $forum_id) {
+        $this->browse(function ($browser) use ($thread, $author, $forum_id, $randomUser) {
             $browser->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
                 ->assertMissing('[name="thread_' . $thread->id . '_edit"]')
-                ->loginAs($user)
+                ->loginAs($randomUser)
+                ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->assertMissing('[name="thread_' . $thread->id . '_edit"]')
+                ->loginAs($author)
                 ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
                 ->assertSeeIn('[name="thread_' . $thread->id . '_edit"]', 'Edit Thread');
         });

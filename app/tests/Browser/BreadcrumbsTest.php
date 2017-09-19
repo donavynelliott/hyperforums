@@ -43,6 +43,7 @@ class BreadcrumbsTest extends DuskTestCase
                 ->assertSeeIn('.breadcrumb', 'Forums')
                 ->assertSeeIn('.breadcrumb', $forum->name)
                 ->clickLink($thread->title) // /forum/{forum_id}/threads/{thread_id}
+                ->assertPathBeginsWith('/forum/' . $forum->id . '/threads/' . $thread->id)
                 ->assertSeeIn('.breadcrumb', 'Home')
                 ->assertSeeIn('.breadcrumb', 'Forums')
                 ->assertSeeIn('.breadcrumb', $forum->name)
