@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Forum extends Model
@@ -18,7 +19,8 @@ class Forum extends Model
 
     public function addThread(array $thread)
     {
-        $thread = $this->threads()->create($thread);
-        return $thread;
+        $thread['user_id'] = Auth::id();
+        return $this->threads()->create($thread);
+
     }
 }
