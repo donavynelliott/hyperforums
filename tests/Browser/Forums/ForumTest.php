@@ -46,4 +46,17 @@ class ForumTest extends DuskTestCase
                 ->assertSeeIn('[name="forum_' . $forum->id . '_reply_count"]', $replyCount);
         });
     }
+
+    public function testForumsAreSortedHighestPriorityFirst()
+    {
+        $forum = factory('App\Forum')->create(['priority' => 1001]);
+        $lastForum = factory('App\Forum')->create(['priority' => -1]);
+        $otherForums = factory('App\Forum', 3)->create();
+
+        $this->browse(function ($browser) use ($forum, $lastForum) {
+            $browser->visit('/forum')
+                ->assertSeeIn('#forums > tbody > tr:nth-child(1) > td:nth-child(1) > a', $forum->name)
+                ->assertSeeIn('#forums > tbody > tr:last-child > td:nth-child(1) > a', $lastForum->name);
+        });
+    }
 }
