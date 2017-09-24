@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -13,15 +13,16 @@ class UserTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        $this->announcement = factory('App\Announcement')->create();
         $this->user = factory('App\User')->create();
     }
 
     public function testUserDashboard()
     {
-        $user = $this->user;
+        $response = $this->actingAs($this->user)
+            ->get('/home');
 
-        $this->actingAs($user)
-            ->get('home')
+        $response->assertStatus(200)
             ->assertViewIs('home');
     }
 }

@@ -12,6 +12,16 @@ class Forum extends Model
         return $this->hasMany('App\Thread');
     }
 
+    public function latestAnnouncement()
+    {
+        return $this->announcements()->orderBy('created_at', 'desc')->first();
+    }
+
+    public function announcements()
+    {
+        return $this->hasMany('App\Announcement');
+    }
+
     public function replies()
     {
         return $this->hasMany('App\Reply');

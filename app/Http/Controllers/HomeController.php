@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Forum;
+use Illuminate\Http\Request;
+
 class HomeController extends Controller
 {
     /**
@@ -19,8 +22,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $latestAnnouncement = Forum::findOrFail(1)
+            ->latestAnnouncement();
+        return view('home', compact('latestAnnouncement'));
     }
 }

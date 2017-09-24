@@ -6,6 +6,15 @@ use Laravel\Dusk\Browser;
 
 class HomePage extends Page
 {
+    public function __construct(Browser $browser = null)
+    {
+        if ($browser != null) {
+            $user = factory('App\User')->create();
+            $browser->loginAs($user);
+            return $this;
+        }
+        return $this;
+    }
     /**
      * Get the URL for the page.
      *
@@ -13,20 +22,13 @@ class HomePage extends Page
      */
     public function url()
     {
-        return '/';
+        return '/home';
     }
 
-    /**
-     * Assert that the browser is on the page.
-     *
-     * @param  Browser  $browser
-     * @return void
-     */
     public function assert(Browser $browser)
     {
-        //
+        $browser->assertPathIs($this->url());
     }
-
     /**
      * Get the element shortcuts for the page.
      *
@@ -35,7 +37,7 @@ class HomePage extends Page
     public function elements()
     {
         return [
-            '@element' => '#selector',
+            '@AnnouncementBox' => '#latest-announcement',
         ];
     }
 }

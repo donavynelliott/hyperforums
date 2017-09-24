@@ -1,7 +1,9 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
+use App\Announcement;
+use App\Forum;
 use App\Reply;
 use App\Thread;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -23,6 +25,7 @@ class ForumTest extends TestCase
             'forum_id' => $this->forum->id,
             'thread_id' => $this->thread->id,
         ]);
+        $this->announcement = factory('App\Announcement')->create();
 
         $this->actingAs($user);
     }
@@ -52,10 +55,17 @@ class ForumTest extends TestCase
 
     public function testForumCanFindReplies()
     {
-        $findReply = $this
-            ->forum
+        $findReply = $this->forum
             ->replies()
             ->find($this->reply->id);
         $this->assertTrue($findReply instanceof Reply);
+    }
+
+    public function testForumCanFindAnnouncements()
+    {
+        $announcement = $this->forum
+            ->announcements()
+            ->find($this->announcement->id);
+        $this->assertTrue($announcement instanceof Thread);
     }
 }

@@ -12,12 +12,12 @@ class HomeController extends TestCase
     public function setUp()
     {
         parent::setUp();
+        $this->announcement = factory('App\Announcement')->create();
         $this->user = factory('App\User')->create();
     }
     public function testHomeControllerIndexForAuthUser()
     {
-        $user = $this->user;
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($this->user)
             ->get('/home');
 
         $response->assertViewIs('home');
