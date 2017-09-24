@@ -1,7 +1,12 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
 /vendor
+/.idea
 /.vagrant
-/Homestead.yaml
-/Homestead.json
-/after.sh
-/aliases
-/app/.bash_profile
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.env

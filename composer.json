@@ -1,25 +1,33 @@
 {
-    "name": "laravel/homestead",
-    "description": "A virtual machine for web artisans.",
+    "name": "laravel/laravel",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "type": "project",
     "require": {
-        "php": "^5.6 || ^7.0",
-        "symfony/console": "~2.3|~3.0",
-        "symfony/process": "~2.3|~3.0",
-        "symfony/yaml": "~2.3|~3.0"
+        "php": ">=7.0.0",
+        "barryvdh/laravel-debugbar": "~2.4",
+        "davejamesmiller/laravel-breadcrumbs": "^4.2",
+        "fideloper/proxy": "~3.3",
+        "guzzlehttp/guzzle": "^6.3",
+        "laravel/framework": "5.5.*",
+        "laravel/tinker": "~1.0",
+        "laravelcollective/html": "^5.4.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7 || ^6.0"
+        "filp/whoops": "~2.0",
+        "fzaninotto/faker": "~1.4",
+        "laravel/dusk": "^2.0",
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "~6.0"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Taylor Otwell",
-            "email": "taylorotwell@gmail.com"
-        }
-    ],
     "autoload": {
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ],
         "psr-4": {
-            "Laravel\\Homestead\\": "src/"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {
@@ -28,11 +36,26 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "4.0-dev"
+        "laravel": {
+            "dont-discover": [
+            ]
         }
     },
-    "bin": [
-        "bin/homestead"
-    ]
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    }
 }
