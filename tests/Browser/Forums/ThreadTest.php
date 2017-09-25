@@ -43,6 +43,21 @@ class ThreadTest extends DuskTestCase
         });
     }
 
+    public function testAuthUsersSeeErrorsForMissingFieldsWhenSubmittingNewThread()
+    {
+        $user = $this->user;
+        $forum_id = $this->thread->forum->id;
+
+        $this->browse(function ($browser) use ($user, $forum_id) {
+            $browser->loginAs($user)
+                ->visit('/forum/' . $forum_id . '/threads/create')
+                ->click('[type="submit"]')
+                ->assertPathBeginsWith('/forum/')
+                ->assertSeeIn('.alert-danger', 'The title field is required.')
+                ->assertSeeIn('.alert-danger', 'The body field is required.');
+        });
+    }
+
     public function testAuthUsersCanSubmitNewThread()
     {
         $user = $this->user;
@@ -56,7 +71,8 @@ class ThreadTest extends DuskTestCase
                 ->click('[type="submit"]')
                 ->assertPathBeginsWith('/forum/')
                 ->assertSee('This is a title')
-                ->assertSee('This is a body');
+                ->assertSee('This is a body')
+                ->assertSeeIn('.alert-success', 'Your thread has been posted');
         });
     }
 

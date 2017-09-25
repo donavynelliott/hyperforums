@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Thread;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -47,7 +48,7 @@ class ThreadController extends TestCase
             ->assertViewHas('thread');
     }
 
-    public function testThreadControllerStore()
+    public function testThreadControllerStoreSuccess()
     {
         $forum_id = $this->thread->forum->id;
         $user = $this->user;
@@ -64,7 +65,22 @@ class ThreadController extends TestCase
         $response = $this->actingAs($user)
             ->post('/forum/' . $forum_id . '/threads/store', $thread);
 
-        $response->assertStatus(302);
+        $this->assertTrue(Thread::where($thread)->exists());
+        $response->assertStatus(302)
+            ->assertSessionMissing('errors');
+    }
+
+    public function testThreadControllerStoreMissingFields()
+    {
+        $user = $this->user;
+        $forum_id = $this->thread->forum->id;
+
+        $response = $this->actingAs($user)
+            ->post("/forum/${forum_id}/threads/store", []);
+
+        $response->assertStatus(302)
+            ->assertSessionHasErrors()
+            ->assertSessionHas('errors');
     }
 
     public function testThreadControllerShow()
@@ -98,12 +114,13 @@ class ThreadController extends TestCase
         $response = $this->actingAs($randomUser)
             ->put('/threads/' . $thread->id, $threadUpdate);
 
-        $response->assertStatus(500);
+        $response->assertStatus(403);
 
         $response = $this->actingAs($author)
             ->put('/threads/' . $thread->id, $threadUpdate);
 
         $response->assertStatus(302)
             ->assertRedirect('/forum/' . $forum_id . '/threads/' . $thread->id);
+        $this->assertTrue(Thread::where($threadUpdate)->exists());
     }
 }

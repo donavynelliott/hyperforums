@@ -35,14 +35,24 @@ class ThreadController extends Controller
      */
     public function store(Request $request, Forum $forum)
     {
-        $thread = $forum->addThread(array(
+        $request->validate([
+            'title' => 'bail|required|max:255',
+            'body' => 'required|min:1',
+        ]);
+
+        $thread = [
             'title' => $request->input('title'),
-            'forum_id' => $forum,
+            'forum' => $forum,
             'body' => $request->input('body'),
             'user_id' => $request->user()->id,
-        ));
+        ];
 
-        return redirect()->route('threads.show', compact('forum', 'thread'));
+        $thread = $forum->addThread($thread);
+
+        flash('Your thread has been posted')->success();
+
+        return redirect()
+            ->route('threads.show', compact('forum', 'thread'));
     }
 
     /**
@@ -78,7 +88,7 @@ class ThreadController extends Controller
     public function update(Request $request, Thread $thread)
     {
         if ($request->user()->id != $thread->user->id) {
-            abort(500);
+            abort(403);
         }
 
         $thread->title = $request->input('title');
