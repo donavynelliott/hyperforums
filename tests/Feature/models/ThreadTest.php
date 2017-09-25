@@ -61,4 +61,25 @@ class ThreadTest extends TestCase
             ->find($this->reply->id);
         $this->assertTrue($findReply instanceof Reply);
     }
+
+    public function testThreadCanDeleteAllReplies()
+    {
+        $reply = factory('App\Reply')->create();
+
+        $reply->thread->deleteAllReplies();
+
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
+    public function testThreadCanDeleteThreadAndReplies()
+    {
+        $thread = $this->thread;
+        $reply = factory('App\Reply')->create(['thread_id' => $thread->id]);
+
+        $thread->deleteThread();
+
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id])
+            ->assertDatabaseMissing('threads', ['id' => $thread->id]);
+    }
+
 }

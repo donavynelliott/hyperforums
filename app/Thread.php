@@ -40,4 +40,17 @@ class Thread extends Model
     {
         $this->replies()->create($reply);
     }
+
+    public function deleteAllReplies()
+    {
+        $this->replies()->each(function ($reply) {
+            $reply->destroy($reply->id);
+        });
+    }
+
+    public function deleteThread()
+    {
+        $this->deleteAllReplies();
+        $this->destroy($this->id);
+    }
 }

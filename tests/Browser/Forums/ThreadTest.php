@@ -76,7 +76,7 @@ class ThreadTest extends DuskTestCase
         });
     }
 
-    public function testOnlyThreadAuthorCanSeeEditButton()
+    public function testOnlyThreadAuthorCanSeeEditAndDeleteButton()
     {
         $thread = $this->thread;
         $author = $thread->user;
@@ -86,12 +86,15 @@ class ThreadTest extends DuskTestCase
         $this->browse(function ($browser) use ($thread, $author, $forum_id, $randomUser) {
             $browser->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
                 ->assertMissing('[name="thread_' . $thread->id . '_edit"]')
+                ->assertMissing('[name="thread_' . $thread->id . '_delete"]')
                 ->loginAs($randomUser)
                 ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
                 ->assertMissing('[name="thread_' . $thread->id . '_edit"]')
+                ->assertMissing('[name="thread_' . $thread->id . '_delete"]')
                 ->loginAs($author)
                 ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
-                ->assertSeeIn('[name="thread_' . $thread->id . '_edit"]', 'Edit Thread');
+                ->assertSeeIn('[name="thread_' . $thread->id . '_edit"]', 'Edit Thread')
+                ->assertSeeIn('[name="thread_' . $thread->id . '_delete"]', 'Delete Thread');
         });
     }
 
@@ -104,6 +107,18 @@ class ThreadTest extends DuskTestCase
             $browser->loginAs($randomUser)
                 ->visit('/threads/' . $thread->id . '/edit')
                 ->assertSee('You must be the author of this thread to edit.');
+        });
+    }
+
+    public function testAuthUserSeeAuthorWarningWhenAttemptingToDeleteOthersThread()
+    {
+        $thread = $this->thread;
+        $randomUser = factory('App\User')->create();
+
+        $this->browse(function ($browser) use ($thread, $randomUser) {
+            $browser->loginAs($randomUser)
+                ->visit('/threads/' . $thread->id . '/edit')
+                ->assertSee('You must be the author of this thread to delete it.');
         });
     }
 
@@ -120,6 +135,23 @@ class ThreadTest extends DuskTestCase
                 ->click('[type="submit"]')
                 ->assertSeeIn('.alert-danger', 'The title field is required.')
                 ->assertSeeIn('.alert-danger', 'The body field is required.');
+        });
+    }
+
+    public function testThreadAuthorCanDeleteThread()
+    {
+        $thread = $this->thread;
+        $user = $thread->user;
+        $forum_id = $thread->forum->id;
+
+        $this->browse(function ($browser) use ($thread, $user, $forum_id) {
+            $browser->loginAs($user)
+                ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->clickLink('Delete Thread')
+                ->clickLink('Confirm')
+                ->assertPathIs('/forum/' . $forum_id)
+                ->assertDontSee($thread->title)
+                ->assertDontSee($thread->body);
         });
     }
 

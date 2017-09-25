@@ -111,8 +111,15 @@ class ThreadController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread)
+    public function destroy(Request $request, Thread $thread)
     {
-        //
+        if ($request->user()->id != $thread->user->id) {
+            abort(403);
+        }
+
+        $forum = $thread->forum;
+        $thread->deleteThread();
+
+        return redirect()->route('forum.show', compact('forum'));
     }
 }

@@ -136,4 +136,28 @@ class ThreadController extends TestCase
             ->assertSessionHasErrors()
             ->assertSessionHas('errors');
     }
+
+    public function testThreadAuthorCanDeleteThread()
+    {
+        $thread = factory('App\Thread')->create();
+        $forum_id = $thread->forum->id;
+        $author = $thread->user;
+        $randomUser = factory('App\User')->create();
+
+        $response = $this->delete('/threads/' . $thread->id);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/login');
+
+        $response = $this->actingAs($randomUser)
+            ->delete('/threads/' . $thread->id);
+
+        $response->assertStatus(403);
+
+        $response = $this->actingAs($author)
+            ->delete('/threads/' . $thread->id);
+
+        $response->assertStatus(302)
+            ->assertRedirect('/forum/' . $forum_id);
+    }
 }
