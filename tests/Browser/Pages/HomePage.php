@@ -38,6 +38,7 @@ class HomePage extends Page
     {
         return [
             '@AnnouncementBox' => '#latest-announcement',
+            '@RecentThreads' => '#recent-threads',
         ];
     }
 }

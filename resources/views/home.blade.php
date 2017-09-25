@@ -4,7 +4,7 @@
 
 <div class="container">
 
-    {{ Breadcrumbs::render('home') }}
+{{ Breadcrumbs::render('home') }}
 
     <div class="jumbotron">
         <h5 class="display-4">What's New?</h5>
@@ -13,6 +13,22 @@
             <a id="latest-announcement" href="{{ route('threads.show', [$latestAnnouncement->forum->id, $latestAnnouncement->id]) }}">
                 {{ $latestAnnouncement->title }}
             </a>
+        </p>
+        <hr>
+        <p class="lead">
+            <table id="recent-threads" class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Recent Threads</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($recentThreads as $thread)
+                        @include('partials.recent-threads')
+                    @endforeach
+                </tbody>
+            </table>
+
         </p>
     </div>
 

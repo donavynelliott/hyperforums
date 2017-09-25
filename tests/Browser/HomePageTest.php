@@ -11,15 +11,28 @@ class HomePageTest extends DuskTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->newAnnouncement = factory('App\Announcement')->create();
     }
 
     public function testAnnouncementBoxShowsLatestAnnouncement()
     {
+        $newAnnouncement = factory('App\Announcement')->create();
         $this->browse(function ($browser) {
             $browser->visit(new HomePage($browser))
                 ->waitFor('@AnnouncementBox')
-                ->assertSeeIn('@AnnouncementBox', $this->newAnnouncement->title);
+                ->assertSeeIn('@AnnouncementBox', $newAnnouncement->title);
+        });
+    }
+
+    public function testRecentPostsContainerHasRecentThreads()
+    {
+        $threads = factory('App\Thread', 3)->create();
+        $threeNewThreadTitles = $threads->pluck('title');
+        $this->browse(function ($browser) use ($threeNewThreadTitles) {
+            $browser->visit(new HomePage($browser))
+                ->waitFor('@RecentThreads')
+                ->assertSeeIn('@RecentThreads', $threeNewThreadTitles[0])
+                ->assertSeeIn('@RecentThreads', $threeNewThreadTitles[1])
+                ->assertSeeIn('@RecentThreads', $threeNewThreadTitles[2]);
         });
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Forum;
+use App\Thread;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,6 +27,7 @@ class HomeController extends Controller
     {
         $latestAnnouncement = Forum::findOrFail(1)
             ->latestAnnouncement();
-        return view('home', compact('latestAnnouncement'));
+        $recentThreads = Thread::orderBy('created_at', 'desc')->take(3)->get();
+        return view('home', compact('latestAnnouncement', 'recentThreads'));
     }
 }
