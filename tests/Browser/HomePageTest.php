@@ -2,12 +2,15 @@
 
 namespace Tests\Browser;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\HomePage;
 use Tests\DuskTestCase;
 
 class HomePageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
+
     public function setUp()
     {
         parent::setUp();
@@ -16,7 +19,7 @@ class HomePageTest extends DuskTestCase
     public function testAnnouncementBoxShowsLatestAnnouncement()
     {
         $newAnnouncement = factory('App\Announcement')->create();
-        $this->browse(function ($browser) {
+        $this->browse(function ($browser) use ($newAnnouncement) {
             $browser->visit(new HomePage($browser))
                 ->waitFor('@AnnouncementBox')
                 ->assertSeeIn('@AnnouncementBox', $newAnnouncement->title);
