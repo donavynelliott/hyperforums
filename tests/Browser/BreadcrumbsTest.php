@@ -13,8 +13,12 @@ class BreadcrumbsTest extends DuskTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->reply = factory('App\Reply')->create();
-        $this->thread = $this->reply->thread;
+        $this->thread = factory('App\Thread')->create();
+        $this->reply = factory('App\Reply')->create([
+            'thread_id' => $this->thread->id,
+            'user_id' => $this->thread->user->id,
+        ]);
+
         $this->forum = $this->thread->forum;
         $this->user = factory('App\User')->create();
     }
@@ -34,8 +38,9 @@ class BreadcrumbsTest extends DuskTestCase
     {
         $forum = $this->forum;
         $thread = $this->thread;
+        $reply = $this->reply;
         $author = $thread->user;
-        $this->browse(function (Browser $browser, Browser $authBrowser) use ($author, $forum, $thread) {
+        $this->browse(function (Browser $browser, Browser $authBrowser) use ($author, $forum, $thread, $reply) {
             $browser->visit('/forum') // /forum
                 ->assertSeeIn('.breadcrumb', 'Home')
                 ->assertSeeIn('.breadcrumb', 'Forums')
@@ -63,6 +68,14 @@ class BreadcrumbsTest extends DuskTestCase
                 ->assertSeeIn('.breadcrumb', $forum->name)
                 ->assertSeeIn('.breadcrumb', $thread->title)
                 ->assertSeeIn('.breadcrumb', 'Edit Thread');
+
+            $authBrowser->loginAs($author)
+                ->visit('/replies/' . $reply->id . '/edit')
+                ->assertSeeIn('.breadcrumb', 'Home')
+                ->assertSeeIn('.breadcrumb', 'Forums')
+                ->assertSeeIn('.breadcrumb', $forum->name)
+                ->assertSeeIn('.breadcrumb', $thread->title)
+                ->assertSeeIn('.breadcrumb', 'Edit Reply');
         });
     }
 

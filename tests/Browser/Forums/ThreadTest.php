@@ -107,6 +107,22 @@ class ThreadTest extends DuskTestCase
         });
     }
 
+    public function testThreadAuthorSeeErrorsForMissingFieldsWhenEditingThread()
+    {
+        $thread = $this->thread;
+        $user = $thread->user;
+
+        $this->browse(function ($browser) use ($thread, $user) {
+            $browser->loginAs($user)
+                ->visit('/threads/' . $thread->id . '/edit')
+                ->clear('title')
+                ->clear('body')
+                ->click('[type="submit"]')
+                ->assertSeeIn('.alert-danger', 'The title field is required.')
+                ->assertSeeIn('.alert-danger', 'The body field is required.');
+        });
+    }
+
     public function testThreadAuthorCanEditThread()
     {
         $thread = $this->thread;
@@ -118,6 +134,8 @@ class ThreadTest extends DuskTestCase
                 ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
                 ->clickLink('Edit Thread')
                 ->assertPathBeginsWith('/threads/')
+                ->assertSee($thread->title)
+                ->assertSee($thread->body)
                 ->type('title', 'testThreadAuthorCanEditThreadtitle')
                 ->type('body', 'testThreadAuthorCanEditThreadbody')
                 ->click('[type="submit"]')

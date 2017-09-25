@@ -42,6 +42,10 @@
                  @include('forum.thread.reply.show')
             @endforeach
 
+            <div class="mt-3">
+                @include('partials.errors')
+            </div>
+
             <!-- Show Reply Form -->
             @auth
             <div class="card">

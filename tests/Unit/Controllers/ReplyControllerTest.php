@@ -17,6 +17,20 @@ class ReplyController extends TestCase
         $this->reply = factory('App\Reply')->create();
     }
 
+    public function testReplyControllerStoreValidatesForm()
+    {
+        $user = $this->user;
+        $forum_id = $this->reply->forum->id;
+        $thread_id = $this->reply->thread->id;
+
+        $response = $this->actingAs($user)
+            ->post("/forum/${forum_id}/threads/${thread_id}/replies", []);
+
+        $response->assertStatus(302)
+            ->assertSessionHasErrors()
+            ->assertSessionHas('errors');
+    }
+
     public function testReplyControllerStore()
     {
         $user = $this->user;
@@ -80,5 +94,18 @@ class ReplyController extends TestCase
 
         $response->assertStatus(302)
             ->assertRedirect('/forum/' . $forum_id . '/threads/' . $thread->id);
+    }
+
+    public function testReplyControllerUpdateValidatesForm()
+    {
+        $reply = factory('App\Reply')->create();
+        $user = $reply->user;
+
+        $response = $this->actingAs($user)
+            ->put('/replies/' . $reply->id, []);
+
+        $response->assertStatus(302)
+            ->assertSessionHasErrors()
+            ->assertSessionHas('errors');
     }
 }

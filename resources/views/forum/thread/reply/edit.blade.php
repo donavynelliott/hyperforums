@@ -7,6 +7,13 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+
+            {{ Breadcrumbs::render('replies.edit', $reply->thread) }}
+
+
+            @include('partials.errors')
+
+
             <div class="card">
                 <div class="card-body">
 

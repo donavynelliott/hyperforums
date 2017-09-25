@@ -70,7 +70,7 @@ class ThreadController extends TestCase
             ->assertSessionMissing('errors');
     }
 
-    public function testThreadControllerStoreMissingFields()
+    public function testThreadControllerStoreValidatesForm()
     {
         $user = $this->user;
         $forum_id = $this->thread->forum->id;
@@ -93,7 +93,7 @@ class ThreadController extends TestCase
             ->assertViewHas('thread');
     }
 
-    public function testThreadControllerUpdate()
+    public function testThreadControllerUpdateSuccess()
     {
         $thread = $this->thread;
         $forum_id = $thread->forum->id;
@@ -122,5 +122,18 @@ class ThreadController extends TestCase
         $response->assertStatus(302)
             ->assertRedirect('/forum/' . $forum_id . '/threads/' . $thread->id);
         $this->assertTrue(Thread::where($threadUpdate)->exists());
+    }
+
+    public function testThreadControllerUpdateValidatesForm()
+    {
+        $thread = factory('App\Thread')->create();
+        $user = $thread->user;
+
+        $response = $this->actingAs($user)
+            ->put('/threads/' . $thread->id, []);
+
+        $response->assertStatus(302)
+            ->assertSessionHasErrors()
+            ->assertSessionHas('errors');
     }
 }

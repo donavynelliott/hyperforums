@@ -37,6 +37,9 @@ class ReplyController extends Controller
      */
     public function store(Request $request, Forum $forum, Thread $thread)
     {
+        $request->validate([
+            'body' => 'bail|required|min:5|max:2000',
+        ]);
         $thread->addReply(array(
             'body' => $request->input('body'),
             'user_id' => $request->user()->id,
@@ -79,6 +82,10 @@ class ReplyController extends Controller
         if ($request->user()->id != $reply->user->id) {
             abort(500);
         }
+
+        $request->validate([
+            'body' => 'bail|required|min:5|max:2000',
+        ]);
 
         $reply->body = $request->input('body');
         $reply->save();

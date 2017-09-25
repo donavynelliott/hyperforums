@@ -91,6 +91,11 @@ class ThreadController extends Controller
             abort(403);
         }
 
+        $request->validate([
+            'title' => 'bail|required|max:255',
+            'body' => 'required|min:1',
+        ]);
+
         $thread->title = $request->input('title');
         $thread->body = $request->input('body');
         $thread->save();

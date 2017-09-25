@@ -42,6 +42,13 @@ Breadcrumbs::register('threads.edit', function ($breadcrumbs, $thread) {
     $breadcrumbs->push('Edit Thread');
 });
 
+// /replies/{reply_id}/edit
+// Forums -> Announcements -> Welcome to Hyperforums -> Edit Reply
+Breadcrumbs::register('replies.edit', function ($breadcrumbs, $thread) {
+    $breadcrumbs->parent('threads.show', $thread);
+    $breadcrumbs->push('Edit Reply');
+});
+
 /* Auth Pages */
 // /password/reset
 Breadcrumbs::register('password.reset', function ($breadcrumbs) {

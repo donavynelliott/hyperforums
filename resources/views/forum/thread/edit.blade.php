@@ -9,6 +9,9 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+
+            @include('partials.errors')
+
             <div class="card">
 
                 @if ( Auth::user()->id == $thread->user->id )

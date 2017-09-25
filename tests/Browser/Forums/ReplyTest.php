@@ -44,17 +44,28 @@ class ReplyTest extends DuskTestCase
         });
     }
 
+    public function testAuthUsersSeeErrorsForMissingFieldsWhenSubmittingNewReply()
+    {
+        $thread = $this->thread;
+
+        $this->browse(function ($browser) use ($thread) {
+            $browser->loginAs($thread->user)
+                ->visit('/forum/' . $thread->forum->id . '/threads/' . $thread->id)
+                ->click('[type="submit"]')
+                ->assertSeeIn('.alert-danger', 'The body field is required.');
+        });
+    }
+
     public function testAuthenticatedUsersCanSubmitReplyToThread()
     {
-        $user = $this->user;
         $thread = $this->thread;
-        $this->browse(function ($browser) use ($user, $thread) {
-            $browser->loginAs($user)
+        $this->browse(function ($browser) use ($thread) {
+            $browser->loginAs($thread->user)
                 ->visit('/forum/' . $thread->forum->id . '/threads/' . $thread->id)
                 ->type('body', 'This is a reply')
                 ->click('[type="submit"]')
                 ->assertSee('This is a reply')
-                ->assertSee($user->name);
+                ->assertSee($thread->user->name);
         });
     }
 
@@ -75,6 +86,19 @@ class ReplyTest extends DuskTestCase
                 ->loginAs($author)
                 ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
                 ->assertSeeIn('[name="reply_' . $reply->id . '_edit"]', 'Edit Reply');
+        });
+    }
+
+    public function testReplyAuthorSeeErrorsForMissingFieldsWhenEditingReply()
+    {
+        $reply = $this->reply;
+
+        $this->browse(function ($browser) use ($reply) {
+            $browser->loginAs($reply->user)
+                ->visit('/replies/' . $reply->id . '/edit')
+                ->clear('body')
+                ->click('[type="submit"]')
+                ->assertSeeIn('.alert-danger', 'The body field is required.');
         });
     }
 
