@@ -49,7 +49,7 @@ class ThreadController extends Controller
 
         $thread = $forum->addThread($thread);
 
-        flash('Your thread has been posted')->success();
+        flash('Your thread has been posted.')->success();
 
         return redirect()
             ->route('threads.show', compact('forum', 'thread'));

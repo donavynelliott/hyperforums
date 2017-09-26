@@ -72,7 +72,7 @@ class ThreadTest extends DuskTestCase
                 ->assertPathBeginsWith('/forum/')
                 ->assertSee('This is a title')
                 ->assertSee('This is a body')
-                ->assertSeeIn('.alert-success', 'Your thread has been posted');
+                ->assertSeeIn('.alert-success', 'Your thread has been posted.');
         });
     }
 
@@ -140,7 +140,7 @@ class ThreadTest extends DuskTestCase
                 ->assertPathIs('/forum/' . $forum_id)
                 ->assertDontSee($thread->title)
                 ->assertDontSee($thread->body)
-                ->assertSeeIn('.alert-info', 'The thread has been deleted.');
+                ->assertSeeIn('.alert-success', 'The thread has been deleted.');
         });
     }
 
