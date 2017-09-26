@@ -120,6 +120,8 @@ class ThreadController extends Controller
         $forum = $thread->forum;
         $thread->deleteThread();
 
+        flash('The thread has been deleted.')->success();
+
         return redirect()->route('forum.show', compact('forum'));
     }
 }

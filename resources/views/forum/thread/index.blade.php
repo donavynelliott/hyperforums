@@ -5,9 +5,12 @@
 <div class="container">
 
     {{ Breadcrumbs::render('forum.show', $forum) }}
-    
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+
+            @include('flash::message')
+
             <div class="card">
 
                 <div class="card-header">
@@ -30,13 +33,13 @@
                                     <th>Thread</th>
                                     <th>Replies</th>
                                     <th>Created</th>
-                                </tr>    
+                                </tr>
                             </thead>
                             <tbody>
 
                                 @foreach ($threads as $thread)
                                     <tr>
-                                        
+
                                         <td>
                                            <a href="{{$forum->id}}/threads/{{$thread->id}}">
                                                 {{ $thread->title }}

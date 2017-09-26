@@ -5,7 +5,7 @@
 <div class="container">
 
     {{ Breadcrumbs::render('forum') }}
-    
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="card">
@@ -22,13 +22,13 @@
                             <th>Forum</th>
                             <th>Threads</th>
                             <th>Replies</th>
-                        </tr>    
+                        </tr>
                     </thead>
                     <tbody>
 
                         @foreach ($forums as $forum)
                             <tr>
-                                
+
                                 <td name="forum_name">
                                     <a href="{{ route('forum.show', $forum) }}">
                                         {{ $forum->name }}
@@ -37,7 +37,7 @@
                                 <td name="forum_{{ $forum->id }}_thread_count">
                                     {{ $forum->threads->count() }}
                                 </td>
-                                    
+
                                 <td name="forum_{{ $forum->id }}_reply_count">
                                     {{ $forum->replies->count() }}
                                 </td>

@@ -110,18 +110,6 @@ class ThreadTest extends DuskTestCase
         });
     }
 
-    public function testAuthUserSeeAuthorWarningWhenAttemptingToDeleteOthersThread()
-    {
-        $thread = $this->thread;
-        $randomUser = factory('App\User')->create();
-
-        $this->browse(function ($browser) use ($thread, $randomUser) {
-            $browser->loginAs($randomUser)
-                ->visit('/threads/' . $thread->id . '/edit')
-                ->assertSee('You must be the author of this thread to delete it.');
-        });
-    }
-
     public function testThreadAuthorSeeErrorsForMissingFieldsWhenEditingThread()
     {
         $thread = $this->thread;
@@ -147,11 +135,12 @@ class ThreadTest extends DuskTestCase
         $this->browse(function ($browser) use ($thread, $user, $forum_id) {
             $browser->loginAs($user)
                 ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
-                ->clickLink('Delete Thread')
-                ->clickLink('Confirm')
+                ->click('[name="thread_1_delete"]')
+                ->click('.swal-button--confirm')
                 ->assertPathIs('/forum/' . $forum_id)
                 ->assertDontSee($thread->title)
-                ->assertDontSee($thread->body);
+                ->assertDontSee($thread->body)
+                ->assertSeeIn('.alert-info', 'The thread has been deleted.');
         });
     }
 

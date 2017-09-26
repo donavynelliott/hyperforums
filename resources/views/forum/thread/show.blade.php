@@ -27,21 +27,23 @@
                     </p>
 
                     @if (!(Auth::guest()) && @Auth::user()->id == $thread->user->id)
-                        {!! Form::open(['url'=>'/threads/' . $thread->id, 'method'=>'delete']) !!}
+
                             <p class="card-text">
                                 <div class="btn-group" role="group" aria-label="Author Tools">
                                     <a class="btn btn-secondary" href="{{ route('threads.edit', $thread) }}" name="thread_{{ $thread->id}}_edit">
                                         Edit Thread
                                     </a>
 
-
-                                    <input type="submit" class="btn btn-secondary" href="{{ route('threads.destroy', $thread) }}" value="Delete Thread">
-
-
+                                    <button id="delete-thread-button" class="btn btn-secondary" href="{{ route('threads.destroy', $thread) }}" name="thread_{{ $thread->id}}_delete">
+                                        Delete Thread
+                                    </button>
                                 </div>
-
                             </p>
-                        {!! Form::close() !!}
+                        <div id="thread-deletion-form-container">
+                            {!! Form::open(['url'=>'/threads/' . $thread->id, 'method'=>'delete']) !!}
+                            {!! Form::close() !!}
+                        </div>
+
                     @endif
 
                 </div>
