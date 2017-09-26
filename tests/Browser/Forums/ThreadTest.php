@@ -14,13 +14,10 @@ class ThreadTest extends DuskTestCase
     public function setUp()
     {
         parent::setUp();
-
         $this->thread = factory('App\Thread')->create();
-        $this->reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
-        $this->user = factory('App\User')->create();
     }
 
-    public function testUserCanSeeThreads()
+    public function testUserCanSeeAllThreads()
     {
         $thread = $this->thread;
 
@@ -30,27 +27,26 @@ class ThreadTest extends DuskTestCase
         });
     }
 
-    public function testUserCanSeeSingleThread()
+    public function testUserCanGoToThreadsPage()
     {
         $thread = $this->thread;
 
         $this->browse(function ($browser) use ($thread) {
             $browser->visit('/forum/' . $thread->forum->id)
-                ->clickLink($thread->title) //click on link
-                ->assertSee($thread->title) //title is visible
-                ->assertSee($thread->body) //body is visible
+                ->clickLink($thread->title)
+                ->assertSee($thread->title)
+                ->assertSee($thread->body)
                 ->assertSee($thread->user->name);
         });
     }
 
     public function testAuthUsersSeeErrorsForMissingFieldsWhenSubmittingNewThread()
     {
-        $user = $this->user;
-        $forum_id = $this->thread->forum->id;
+        $thread = $this->thread;
 
-        $this->browse(function ($browser) use ($user, $forum_id) {
-            $browser->loginAs($user)
-                ->visit('/forum/' . $forum_id . '/threads/create')
+        $this->browse(function ($browser) use ($thread) {
+            $browser->loginAs($thread->user)
+                ->visit('/forum/' . $thread->forum->id . '/threads/create')
                 ->click('[type="submit"]')
                 ->assertPathBeginsWith('/forum/')
                 ->assertSeeIn('.alert-danger', 'The title field is required.')
@@ -60,12 +56,11 @@ class ThreadTest extends DuskTestCase
 
     public function testAuthUsersCanSubmitNewThread()
     {
-        $user = $this->user;
-        $forum_id = $this->thread->forum->id;
+        $thread = $this->thread;
 
-        $this->browse(function ($browser) use ($user, $forum_id) {
-            $browser->loginAs($user)
-                ->visit('/forum/' . $forum_id . '/threads/create')
+        $this->browse(function ($browser) use ($thread) {
+            $browser->loginAs($thread->user)
+                ->visit('/forum/' . $thread->forum->id . '/threads/create')
                 ->type('title', 'This is a title')
                 ->type('body', 'This is a body')
                 ->click('[type="submit"]')
@@ -79,22 +74,28 @@ class ThreadTest extends DuskTestCase
     public function testOnlyThreadAuthorCanSeeEditAndDeleteButton()
     {
         $thread = $this->thread;
-        $author = $thread->user;
-        $forum_id = $thread->forum->id;
-        $randomUser = factory('App\User')->create();
 
-        $this->browse(function ($browser) use ($thread, $author, $forum_id, $randomUser) {
-            $browser->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
-                ->assertMissing('[name="thread_' . $thread->id . '_edit"]')
-                ->assertMissing('[name="thread_' . $thread->id . '_delete"]')
+        $this->browse(function ($browser) use ($thread) {
+            $author = $thread->user;
+            $forum_id = $thread->forum->id;
+            $randomUser = factory('App\User')->create();
+            $editButton = '[name="thread_' . $thread->id . '_edit"]';
+            $deleteButton = '[name="thread_' . $thread->id . '_delete"]';
+
+            $browser->logout()
+                ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+                ->assertMissing($editButton)
+                ->assertMissing($deleteButton)
+
                 ->loginAs($randomUser)
                 ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
-                ->assertMissing('[name="thread_' . $thread->id . '_edit"]')
-                ->assertMissing('[name="thread_' . $thread->id . '_delete"]')
+                ->assertMissing($editButton)
+                ->assertMissing($deleteButton)
+
                 ->loginAs($author)
                 ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
-                ->assertSeeIn('[name="thread_' . $thread->id . '_edit"]', 'Edit Thread')
-                ->assertSeeIn('[name="thread_' . $thread->id . '_delete"]', 'Delete Thread');
+                ->assertSeeIn($editButton, 'Edit Thread')
+                ->assertSeeIn($deleteButton, 'Delete Thread');
         });
     }
 
@@ -110,13 +111,12 @@ class ThreadTest extends DuskTestCase
         });
     }
 
-    public function testThreadAuthorSeeErrorsForMissingFieldsWhenEditingThread()
+    public function testThreadAuthorSeesErrorsForMissingFieldsWhenEditingThread()
     {
         $thread = $this->thread;
-        $user = $thread->user;
 
-        $this->browse(function ($browser) use ($thread, $user) {
-            $browser->loginAs($user)
+        $this->browse(function ($browser) use ($thread) {
+            $browser->loginAs($thread->user)
                 ->visit('/threads/' . $thread->id . '/edit')
                 ->clear('title')
                 ->clear('body')
@@ -129,15 +129,13 @@ class ThreadTest extends DuskTestCase
     public function testThreadAuthorCanDeleteThread()
     {
         $thread = $this->thread;
-        $user = $thread->user;
-        $forum_id = $thread->forum->id;
 
-        $this->browse(function ($browser) use ($thread, $user, $forum_id) {
-            $browser->loginAs($user)
-                ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+        $this->browse(function ($browser) use ($thread) {
+            $browser->loginAs($thread->user)
+                ->visit('/forum/' . $thread->forum->id . '/threads/' . $thread->id)
                 ->click('[name="thread_1_delete"]')
                 ->click('.swal-button--confirm')
-                ->assertPathIs('/forum/' . $forum_id)
+                ->assertPathIs('/forum/' . $thread->forum->id)
                 ->assertDontSee($thread->title)
                 ->assertDontSee($thread->body)
                 ->assertSeeIn('.alert-success', 'The thread has been deleted.');
@@ -147,12 +145,10 @@ class ThreadTest extends DuskTestCase
     public function testThreadAuthorCanEditThread()
     {
         $thread = $this->thread;
-        $user = $thread->user;
-        $forum_id = $thread->forum->id;
 
-        $this->browse(function ($browser) use ($thread, $user, $forum_id) {
-            $browser->loginAs($user)
-                ->visit('/forum/' . $forum_id . '/threads/' . $thread->id)
+        $this->browse(function ($browser) use ($thread) {
+            $browser->loginAs($thread->user)
+                ->visit('/forum/' . $thread->forum->id . '/threads/' . $thread->id)
                 ->clickLink('Edit Thread')
                 ->assertPathBeginsWith('/threads/')
                 ->assertSee($thread->title)
@@ -169,24 +165,19 @@ class ThreadTest extends DuskTestCase
     public function testThreadReplyCountIsVisible()
     {
         $thread = $this->thread;
-        $replyCount = $thread->replies->count();
-        $forum_id = $thread->forum->id;
-
-        $this->browse(function ($browser) use ($thread, $replyCount, $forum_id) {
-            $browser->visit('/forum/' . $forum_id)
-                ->assertSeeIn('[name="thread_' . $thread->id . '_reply_count"]', $replyCount);
+        $this->browse(function ($browser) use ($thread) {
+            $browser->visit('/forum/' . $thread->forum->id)
+                ->assertSeeIn('[name="thread_' . $thread->id . '_reply_count"]', $thread->replies->count());
         });
     }
 
     public function testThreadCreatedTimeIsVisible()
     {
         $thread = $this->thread;
-        $createdAt = $thread->created_at->format('M j\\, Y g:ia');
-        $forum_id = $thread->forum->id;
 
-        $this->browse(function ($browser) use ($thread, $createdAt, $forum_id) {
-            $browser->visit('/forum/' . $forum_id)
-                ->assertSeeIn('[name="thread_' . $thread->id . '_created_at"]', $createdAt);
+        $this->browse(function ($browser) use ($thread) {
+            $browser->visit('/forum/' . $thread->forum->id)
+                ->assertSeeIn('[name="thread_' . $thread->id . '_created_at"]', $thread->created_at->format('M j\\, Y g:ia'));
         });
     }
 }

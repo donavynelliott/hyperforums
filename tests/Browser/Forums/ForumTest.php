@@ -19,6 +19,7 @@ class ForumTest extends DuskTestCase
     public function testAllUsersCanSeeForums()
     {
         $forum = $this->forum;
+
         $this->browse(function ($browser) use ($forum) {
             $browser->visit('/forum')
                 ->assertSee($forum->name);
@@ -28,32 +29,31 @@ class ForumTest extends DuskTestCase
     public function testAllUsersCanSeeForumThreadCount()
     {
         $forum = $this->forum;
-        $threadCount = $forum->threads->count();
 
-        $this->browse(function ($browser) use ($forum, $threadCount) {
+        $this->browse(function ($browser) use ($forum) {
             $browser->visit('/forum')
-                ->assertSeeIn('[name="forum_' . $forum->id . '_thread_count"]', $threadCount);
+                ->assertSeeIn('[name="forum_' . $forum->id . '_thread_count"]', $forum->threads->count());
         });
     }
 
     public function testThreadReplyCountIsVisible()
     {
         $forum = $this->forum;
-        $replyCount = $forum->replies->count();
 
-        $this->browse(function ($browser) use ($forum, $replyCount) {
+        $this->browse(function ($browser) use ($forum) {
             $browser->visit('/forum')
-                ->assertSeeIn('[name="forum_' . $forum->id . '_reply_count"]', $replyCount);
+                ->assertSeeIn('[name="forum_' . $forum->id . '_reply_count"]', $forum->replies->count());
         });
     }
 
     public function testForumsAreSortedHighestPriorityFirst()
     {
-        $forum = factory('App\Forum')->create(['priority' => 1001]);
-        $lastForum = factory('App\Forum')->create(['priority' => -1]);
         $otherForums = factory('App\Forum', 3)->create();
 
-        $this->browse(function ($browser) use ($forum, $lastForum) {
+        $this->browse(function ($browser) {
+            $forum = factory('App\Forum')->create(['priority' => 1001]);
+            $lastForum = factory('App\Forum')->create(['priority' => -1]);
+
             $browser->visit('/forum')
                 ->assertSeeIn('#forums > tbody > tr:nth-child(1) > td:nth-child(1) > a', $forum->name)
                 ->assertSeeIn('#forums > tbody > tr:last-child > td:nth-child(1) > a', $lastForum->name);
