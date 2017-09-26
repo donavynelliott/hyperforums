@@ -28,7 +28,7 @@ class BreadcrumbsTest extends DuskTestCase
         $user = $this->user;
         $this->browse(function (Browser $browser, Browser $authBrowser) use ($user) {
             $authBrowser->loginAs($user)
-                ->visit('/home')
+                ->visit('/')
                 ->assertSeeIn('.breadcrumb', 'Home');
         });
 

@@ -20,7 +20,7 @@ class UserTest extends TestCase
     public function testUserDashboard()
     {
         $response = $this->actingAs($this->user)
-            ->get('/home');
+            ->get('/');
 
         $response->assertStatus(200)
             ->assertViewIs('home');

@@ -22,7 +22,7 @@ class HomePage extends Page
      */
     public function url()
     {
-        return '/home';
+        return '/';
     }
 
     public function assert(Browser $browser)

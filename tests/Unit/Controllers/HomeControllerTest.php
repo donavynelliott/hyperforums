@@ -18,7 +18,7 @@ class HomeController extends TestCase
     public function testHomeControllerIndexForAuthUser()
     {
         $response = $this->actingAs($this->user)
-            ->get('/home');
+            ->get('/');
 
         $response->assertViewIs('home')
             ->assertViewHas('latestAnnouncement')
@@ -27,7 +27,7 @@ class HomeController extends TestCase
 
     public function testHomeControllerIndexRedirectsToLoginForAnonUsers()
     {
-        $response = $this->get('/home');
+        $response = $this->get('/');
 
         $response->assertStatus(302)
             ->assertRedirect('/login');
