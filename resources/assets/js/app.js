@@ -36,8 +36,6 @@ jQuery(document).ready(function($) {
 		.then((willDelete) => {
 			if (willDelete) {
 				return promise();
-			} else {
-				swal("The " + objectType + " has not been deleted"); 
 			}
 		});
 	}
